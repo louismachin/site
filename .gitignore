@@ -1,3 +1,4 @@
-Gemfile.log
+Gemfile.lock
 data/*
+!data/.gitkeep
 environment.yml
