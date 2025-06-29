@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+
+<%= erb :_head, locals: { copy: @copy } %>
+
+<body>
+    <div id="horz">
+        <%= erb :_nav %>
+        <div id="main">
+            <div id="pictures">
+                <% content.each do |entry| %>
+                    <div><img
+                        style="cursor: crosshair;"
+                        onclick="window.location = '/read/<%= entry[:id] %>'"
+                        src="<%= entry[:thumbnail_file_path] %>"
+                    /></div>
+                <% end %>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>

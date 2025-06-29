@@ -1,0 +1,13 @@
+<div class="x-scroller" style="margin-bottom: 16px;">
+    <table class="fragment">
+        <tr>
+            <th><a class="link" href="/read/<%= entry[:id] %>"><%= entry[:title] %></a></th>
+            <th class="right"><%= entry[:date] %></th>
+        </tr>
+        <tr>
+            <td colspan="2">
+                <div class="markdown-content"><%= entry[:content] %></div>
+            </td>
+        </tr>
+    </table>
+</div>

@@ -1,0 +1,25 @@
+<div id="nav">
+    <a class="link" href="/"><h1>Louis Machin</h1></a>
+    <ul>
+        <a class="link" href="/writings"><li>Writings</li></a>
+        <a class="link" href="/fragments"><li>Fragments</li></a>
+        <a class="link" href="/pictures"><li>Pictures</li></a>
+        <a class="link" href="/about"><li>About</li></a>
+        <a class="link" href="/archive"><li>Archive</li></a>
+        <% if is_logged_in? %>
+            <div class="divider"></div>
+            <a class="link" href="/api/backup.tar.gz"><li>Backup &#11123;</li></a>
+            <a class="link" href="/logout"><li>Logout</li></a>
+        <% end %>
+    </ul>
+</div>
+
+<style>
+    div.divider {
+        width: calc(100% - 48px);
+        height: 1px;
+        margin: 16px 0;
+        background-color: white;
+        border-top: 3px double black;
+    }
+</style>

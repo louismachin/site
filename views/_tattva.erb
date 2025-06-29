@@ -1,0 +1,64 @@
+<table id="tattva">
+    <tr>
+        <td><img id="FF" src="/img/tattva/FF.svg"></td>
+        <td><img id="EE" src="/img/tattva/EE.svg"></td>
+        <td><img id="WW" src="/img/tattva/WW.svg"></td>
+        <td><img id="AA" src="/img/tattva/AA.svg"></td>
+        <td><img id="SS" src="/img/tattva/SS.svg"></td>
+    </tr>
+    <tr>
+        <td><img id="FE" src="/img/tattva/FE.svg"></td>
+        <td><img id="EW" src="/img/tattva/EW.svg"></td>
+        <td><img id="WA" src="/img/tattva/WA.svg"></td>
+        <td><img id="AS" src="/img/tattva/AS.svg"></td>
+        <td><img id="SF" src="/img/tattva/SF.svg"></td>
+    </tr>
+    <tr>
+        <td><img id="FW" src="/img/tattva/FW.svg"></td>
+        <td><img id="EA" src="/img/tattva/EA.svg"></td>
+        <td><img id="WS" src="/img/tattva/WS.svg"></td>
+        <td><img id="AF" src="/img/tattva/AF.svg"></td>
+        <td><img id="SE" src="/img/tattva/SE.svg"></td>
+    </tr>
+    <tr>
+        <td><img id="FA" src="/img/tattva/FA.svg"></td>
+        <td><img id="ES" src="/img/tattva/ES.svg"></td>
+        <td><img id="WF" src="/img/tattva/WF.svg"></td>
+        <td><img id="AE" src="/img/tattva/AE.svg"></td>
+        <td><img id="SW" src="/img/tattva/SW.svg"></td>
+    </tr>
+    <tr>
+        <td><img id="FS" src="/img/tattva/FS.svg"></td>
+        <td><img id="EF" src="/img/tattva/EF.svg"></td>
+        <td><img id="WE" src="/img/tattva/WE.svg"></td>
+        <td><img id="AW" src="/img/tattva/AW.svg"></td>
+        <td><img id="SA" src="/img/tattva/SA.svg"></td>
+    </tr>
+</table>
+
+<style>
+    #tattva {
+    }
+
+    #tattva img {
+        cursor: crosshair;
+    }
+
+    @media (min-width: 640px) {
+        #tattva {
+            width: 480px;
+            height: 480px;
+        }
+
+        #tattva img {
+            width: 100%;
+        }
+    }
+</style>
+
+<script>
+    var tattva_images = [].slice.call(document.getElementById('tattva').getElementsByTagName('img'), 0)
+    for (var i = 0; i < tattva_images.length; i++) {
+        tattva_images[i].onclick = (event) => tattvaClick(event.target.id)
+    }
+</script>

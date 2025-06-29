@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+</head>
+
+<body>
+    <%= erb :_tattva %>
+</body>
+
+<script>
+    var sequence = []
+    var tattvaClick = (id) => {
+        sequence = sequence.concat([id]).slice(-6)
+        fetch('/login', {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json'}, 
+            body: JSON.stringify({ sequence: sequence })
+        }).then(res => {
+            if (res.status == 200) {
+                document.location.href = '/'
+            }
+        })
+    }
+</script>
+
+<style>
+    body {
+        display: flex;
+        width: 100vw;
+        height: 100vh;
+        justify-content: center;
+        align-items: center;
+        overflow: hidden;
+    }
+</style>
+
+</html>

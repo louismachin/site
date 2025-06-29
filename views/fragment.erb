@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html>
+
+<%= erb :_head, locals: { copy: @copy } %>
+
+<body>
+    <div id="horz">
+        <%= erb :_nav %>
+        <div id="main">
+            <%= erb :_fragment, locals: { entry: entry } %>
+        </div>
+    </div>
+</body>
+
+</html>

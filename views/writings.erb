@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+
+<%= erb :_head, locals: { copy: @copy } %>
+
+<body>
+    <div id="horz">
+        <%= erb :_nav %>
+        <div id="main">
+            <table>
+                <% content.each do |entry| %>
+                    <tr>
+                        <td><a class="link" href="/read/<%= entry[:id] %>">
+                            <%= entry[:title] %>
+                        </a></td>
+                        <td class="right"><%= entry[:date] %></td>
+                    </tr>
+                <% end %>
+            </table>
+        </div>
+    </div>
+</body>
+
+</html>

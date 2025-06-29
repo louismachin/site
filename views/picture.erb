@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html>
+
+<%= erb :_head, locals: { copy: @copy } %>
+
+<body>
+    <div id="horz">
+        <%= erb :_nav %>
+        <div id="main">
+            <img style="max-width: 100%;" src="<%= file_path %>">
+        </div>
+    </div>
+</body>
+
+</html>

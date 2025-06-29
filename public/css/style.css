@@ -1,0 +1,150 @@
+@font-face {
+    font-family: 'Gramercy';
+    src: url('/fonts/GramercyVariable.woff2') format('woff2');
+}
+
+body {
+    padding: 0 16px;
+}
+
+body * {
+    font-family: 'Gramercy', serif;
+    line-height: 1.5;
+    font-size: 1rem;
+}
+
+a.link {
+    text-decoration: none;
+    color: inherit;
+}
+
+a.link:hover {
+    text-decoration: underline;
+    cursor: crosshair;
+}
+
+#horz {
+    display: grid;
+    grid-template-columns: 1fr;
+    width: 100%;
+}
+
+@media (min-width: 640px) {
+    body {
+        display: flex;
+        justify-content: center;
+        padding: 16px 16px;
+    }
+
+    #horz {
+        display: grid;
+        max-width: 640px;
+        grid-template-columns: 160px 1fr;
+    }
+}
+
+#horz > div {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    max-width: 100%;
+    overflow-x: auto;
+    height: min-content;
+    padding-bottom: 32px;
+}
+
+#nav ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+#horz table {
+    text-align: left;
+    padding-bottom: 16px;
+}
+
+#horz table .right {
+    text-align: right;
+}
+
+#pictures {
+    display: grid;
+    grid-gap: 16px;
+    grid-template-columns: 1fr;
+}
+
+#pictures img {
+    max-width: 100%;
+}
+
+@media (min-width: 640px) {
+    #pictures {
+        display: grid;
+        grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+    }
+}
+
+/* FRAGMENT */
+
+table.fragment {
+    border-collapse: collapse;
+}
+
+table.fragment tr {
+    border: 1px solid black;
+}
+
+table.fragment th, table.fragment td {
+    padding: 8px 16px;
+}
+
+table.fragment .markdown-content {
+    padding: 0;
+    margin: 0;
+}
+
+
+table.fragment .markdown-content pre {
+    overflow-x: auto;
+    margin: 0 auto;
+}
+
+table.fragment .markdown-content code {
+    font-family: 'Courier New', Courier, monospace;
+    line-height: 1.2;
+    font-size: 0.8rem;
+}
+
+/* END OF FRAGMENT */
+
+.markdown-content em {
+    color: red;
+}
+
+.markdown-content .center {
+    text-align: center;
+}
+
+.markdown-content .oration {
+    border: none;
+    padding: 0 !important;
+}
+
+.markdown-content .oration .a {
+    min-width: 80px;
+    vertical-align: top;
+    font-weight: bold;
+    padding-right: 16px;
+}
+
+.markdown-content .oration .b p {
+    margin: 0;
+}
+
+.x-scroller {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    overflow-x: scroll;
+}
