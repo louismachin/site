@@ -3,6 +3,7 @@ require 'redcarpet'
 
 require_relative './models/environment'
 
+set :bind, '0.0.0.0'
 set :port, $env.port
 set :public_folder, File.expand_path('public', __dir__)
 
