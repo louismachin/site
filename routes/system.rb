@@ -12,7 +12,7 @@ get '/ip' do
 end
 
 get '/api/fizzbuzz' do
-  n = params[:n]
+  n = params[:n].to_i
   if n
     result = ''
     result += 'FIZZ' if n % 3 == 0
