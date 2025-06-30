@@ -1,5 +1,6 @@
 source 'https://rubygems.org'
 
-gem 'sinatra'
+gem 'sinatra', '~> 2.2'
 gem 'rackup'
-gem "redcarpet", "~> 3.6"
+gem 'redcarpet'
+
