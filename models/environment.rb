@@ -1,7 +1,8 @@
 ENV_FILE_PATH = 'environment.yml'
 
 class Environment
-    attr_reader :given_tokens
+    attr_reader :data
+    attr_accessor :given_tokens
 
     def initialize
         if File.file?(ENV_FILE_PATH)

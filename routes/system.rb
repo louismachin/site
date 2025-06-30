@@ -11,14 +11,14 @@ get '/ip' do
   "Your IP address is: #{request.ip}"
 end
 
-get '/api/fizzbuzz' do
+get '/api/fizzbuzz.json' do
   n = params[:n].to_i
   if n
     result = ''
     result += 'FIZZ' if n % 3 == 0
     result += 'BUZZ' if n % 5 == 0
     status 200
-    result == '' ? n : result
+    { result: result == '' ? n : result }.to_json
   else
     status 400
     { error: 'Must provide valid ?n= query argument.' }.to_json
@@ -31,7 +31,7 @@ get '/api/backup.tar.gz' do
   content_type 'application/gzip'
   attachment 'backup.tar.gz'
   temp_tar = Tempfile.new(['backup', '.tar.gz'])
-  tar_command = "tar -czf #{temp_tar.path} -C #{settings.root} data"
+  tar_command = "tar -czf #{temp_tar.path} -C #{settings.root} data environment.yml"
   system(tar_command)
   send_file temp_tar.path, type: 'application/gzip'
 end

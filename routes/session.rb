@@ -37,7 +37,7 @@ end
 
 get '/logout' do
   token = request.cookies[COOKIE_NAME]
-  GIVEN_TOKENS.delete(token) if token
+  $env.given_tokens.delete(token) if token
   response.delete_cookie(COOKIE_NAME, path: '/')
   redirect '/'
 end
