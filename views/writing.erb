@@ -7,7 +7,7 @@
     <div id="horz">
         <%= erb :_nav %>
         <div id="main">
-            <%= erb :_markdown_partial, locals: { content: render_markdown(@file_path) } %>
+            <%= erb :_markdown, locals: { content: render_markdown(@file_path) } %>
         </div>
     </div>
 </body>
