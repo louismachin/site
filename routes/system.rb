@@ -11,6 +11,20 @@ get '/ip' do
   "Your IP address is: #{request.ip}"
 end
 
+get '/api/fizzbuzz'
+  n = params[:n]
+  if n
+    result = ''
+    result += 'FIZZ' if n % 3 == 0
+    result += 'BUZZ' if n % 5 == 0
+    status 200
+    result == '' ? n : result
+  else
+    status 400
+    { error: 'Must provide valid ?n= query argument.' }.to_json
+  end
+end
+
 get '/api/backup.tar.gz' do
   protected!
   require 'tempfile'
