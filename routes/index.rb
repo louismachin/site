@@ -50,3 +50,24 @@ get '/read/:id' do
     erb :fragment, locals: { copy: @copy, entry: @entry }
   end
 end
+
+get '/write' do
+  protected!
+  @copy = { title: 'Louis Machin' }
+  erb :write, locals: { copy: @copy }
+end
+
+post '/write' do
+  protected!
+  data = JSON.parse(request.body.read)
+  document = Document.new
+  document.set_metadata({
+    'id' => data['id'],
+    'title' => data['title'],
+    'date' => Date.today.to_s,
+    'fragment' => data['fragment'],
+    'public' => data['public'],
+  })
+  document.save(data['body'])
+  { success: true }.to_json
+end

@@ -1,4 +1,5 @@
 require 'yaml'
+require 'fileutils'
 
 module DocumentType
     Writing = 0,
@@ -7,9 +8,22 @@ module DocumentType
 end
 
 class Document
+    attr_accessor :metadata
     def initialize(file_path = nil)
         @metadata = {}
         load_file(file_path) unless file_path == nil
+    end
+
+    def save(body = nil)
+        puts "Saving #{self.id}..."
+        puts @metadata.inspect
+        dir = File.join(APP_ROOT, 'data')
+        yaml_path = File.join(dir, "#{self.id}.yml")
+        File.write(yaml_path, @metadata.to_yaml)
+        if body
+            md_path = File.join(dir, "#{self.id}.md")
+            File.write(md_path, body)
+        end
     end
 
     def load_file(file_path)
@@ -18,6 +32,10 @@ class Document
         else
             return nil
         end
+    end
+
+    def set_metadata(metadata)
+        @metadata = metadata
     end
 
     def to_json

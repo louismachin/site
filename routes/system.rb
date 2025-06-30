@@ -11,6 +11,18 @@ get '/ip' do
   "Your IP address is: #{request.ip}"
 end
 
+get '/api' do
+  content_type :json
+  routes = settings.routes
+    .reject { |verb, _| verb.upcase == 'HEAD' }
+    .flat_map { |verb, routes_array|
+      routes_array.map { |route|
+        { method: verb.upcase, path: route[0].to_s }
+      }
+    }
+    .select { |r| r[:path].start_with?('/api/') }.to_json
+end
+
 get '/api/fizzbuzz.json' do
   n = params[:n].to_i
   if n
@@ -18,9 +30,11 @@ get '/api/fizzbuzz.json' do
     result += 'FIZZ' if n % 3 == 0
     result += 'BUZZ' if n % 5 == 0
     status 200
+    content_type :json
     { result: result == '' ? n : result }.to_json
   else
     status 400
+    content_type :json
     { error: 'Must provide valid ?n= query argument.' }.to_json
   end
 end
@@ -57,4 +71,15 @@ not_found do
   status 404
   @copy = { title: "Louis Machin – 404" }
   erb :not_found, locals: { copy: @copy }
+end
+
+get '/robots.txt' do
+  content_type 'text/plain'
+  <<~ROBOTS
+    User-agent: *
+    Allow: /
+    Disallow: /
+    Disallow: /api/
+    Disallow: /other-path/
+  ROBOTS
 end
