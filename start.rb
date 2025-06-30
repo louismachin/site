@@ -8,7 +8,7 @@ set :port, $env.port
 set :public_folder, File.expand_path('public', __dir__)
 
 require_relative './helpers/markdown'
-
+require_relative './helpers/content'
 require_relative './helpers/simple_web'
 
 require_relative './models/document'
