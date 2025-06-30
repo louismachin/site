@@ -11,7 +11,7 @@ get '/ip' do
   "Your IP address is: #{request.ip}"
 end
 
-get '/api/fizzbuzz'
+get '/api/fizzbuzz' do
   n = params[:n]
   if n
     result = ''
