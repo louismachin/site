@@ -17,6 +17,7 @@ require_relative './models/document'
 
 require_relative './routes/index'
 require_relative './routes/system'
+require_relative './routes/upload'
 require_relative './routes/session'
 require_relative './routes/content'
 require_relative './routes/astrology'

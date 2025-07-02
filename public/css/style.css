@@ -17,6 +17,28 @@ h1, th {
     font-weight: 550;
 }
 
+button,
+input[type=button], input[type=submit], input[type=reset],
+input::file-selector-button {
+    font-family: 'Gramercy', serif;
+    line-height: 1.5;
+    font-size: 1rem;
+    background-color: #DDD;
+    border: 1px solid black;
+    padding: 2px 8px;
+}
+
+input::file-selector-button {
+    margin-right: 16px;
+}
+
+button:hover,
+input[type=button]:hover, input[type=submit]:hover, input[type=reset]:hover,
+input::file-selector-button:hover {
+    background-color: #AAA;
+    cursor: crosshair;
+}
+
 a.link {
     text-decoration: none;
     color: inherit;
@@ -72,14 +94,22 @@ a.link:hover {
     text-align: right;
 }
 
+/* PICTURE GALLERY */
+
 #pictures {
     display: grid;
     grid-gap: 16px;
     grid-template-columns: 1fr;
 }
 
+#pictures > div {
+    display: flex;
+    aspect-ratio : 1 / 1;
+}
+
 #pictures img {
-    max-width: 100%;
+    object-fit: cover;
+    width: 100%;
 }
 
 @media (min-width: 640px) {
@@ -88,6 +118,8 @@ a.link:hover {
         grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
     }
 }
+
+/* END OF PICTURE GALLERY */
 
 /* FRAGMENT */
 
