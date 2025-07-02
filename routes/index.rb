@@ -54,7 +54,7 @@ get '/read/:id' do
   elsif document.is_writing?
     erb :writing, locals: { copy: @copy, file_path: @file_path }
   elsif document.is_fragment?
-    @entry = document.to_json
+    @entry = document
     erb :fragment, locals: { copy: @copy, entry: @entry }
   end
 end
