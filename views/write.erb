@@ -1,27 +1,35 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <link rel="stylesheet" href="/css/write.css"> 
 </head>
+
+<% document ||= nil %>
+<% puts document.inspect %>
+
 <body>
     <form id="postForm">
         <div class="inline-fields">
-            <input type="text" id="id" name="id" placeholder="ID">
-            <input type="text" id="title" name="title" placeholder="Title">
+            <input type="text" id="id" name="id" placeholder="ID" value="<%= document&.id %>">
+            <input type="text" id="title" name="title" placeholder="Title" value="<%= document&.title %>">
+
             <label for="fragment">Fragment?</label>
             <label class="toggle">
-                <input type="checkbox" id="fragment" name="fragment">
+                <input type="checkbox" id="fragment" name="fragment" <%= 'checked' if document&.is_fragment? %>>
                 <span class="slider"></span>
             </label>
-            <label for="fragment">Public?</label>
+
+            <label for="public">Public?</label>
             <label class="toggle">
-                <input type="checkbox" id="public" name="public">
+                <input type="checkbox" id="public" name="public" <%= 'checked' if document&.is_public? %>>
                 <span class="slider"></span>
             </label>
         </div>
-        <textarea id="body" name="body" placeholder="Write..."></textarea>
-  </form>
+
+        <textarea id="body" name="body" placeholder="Write..."><%= document&.raw_content %></textarea>
+    </form>
 
   <script>
     document.addEventListener('keydown', (e) => {

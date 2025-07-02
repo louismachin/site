@@ -2,9 +2,10 @@ require 'yaml'
 require 'fileutils'
 
 module DocumentType
-    Writing = 0,
-    Fragment = 1,
-    Picture = 2
+    None = 'None',
+    Writing = 'Writing',
+    Fragment = 'Fragment',
+    Picture = 'Picture'
 end
 
 class Document
@@ -54,6 +55,11 @@ class Document
         return data
     end
 
+    def toggle_privacy
+        @metadata['public'] = !@metadata.dig('public')
+    end
+
+
     def is_public?
         @metadata.dig('public')
     end
@@ -99,6 +105,14 @@ class Document
             return thumb_file_path
         else
             return self.file_path
+        end
+    end
+
+    def raw_content
+        if File.file?(self.file_path)
+            File.read(self.file_path)
+        else
+            ''
         end
     end
 
