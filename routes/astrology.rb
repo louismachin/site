@@ -8,7 +8,7 @@ get '/api/horoscope.json' do
         'Authorization': bearer_token,
         'Content-Type': 'application/json',
     }
-    response_body = get_body(uri, params, headers)
+    response_body = simple_get_body(uri, params, headers)
     horoscope = response_body.dig('today', 'pushNotificationText')
     if horoscope
         status 200
