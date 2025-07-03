@@ -1,35 +1,35 @@
 get '/upload' do
   protected!
-  <<~HTML
-    <!DOCTYPE html>
-    <html>
-      <head>
-        <title>Upload a File</title>
-      </head>
-      <body>
-        <form action="/upload" method="POST" enctype="multipart/form-data">
-          <input type="file" name="file">
-          <button type="submit">Upload</button>
-        </form>
-      </body>
-    </html>
-  HTML
+  @copy = { title: 'Louis Machin' }
+  erb :upload_picture, locals: { copy: @copy }
 end
 
-
-post '/upload' do
+post '/api/upload' do
   protected!
-  if params[:file] &&
-    (tempfile = params[:file][:tempfile]) &&
-    (filename = params[:file][:filename])
-    save_path = File.join(APP_ROOT, 'uploads', filename)
-    FileUtils.mkdir_p(File.dirname(save_path)) # ensure dir exists
-    File.open(save_path, 'wb') do |f|
-      f.write(tempfile.read)
-    end
-    "File uploaded successfully to #{save_path}"
-  else
-    status 400
-    "No file uploaded"
+  unless params[:file] && params[:id]
+    halt 400, { 'success' => false, 'error' => 'Missing required fields' }.to_json
   end
+  # Get values
+  file = params[:file][:tempfile]
+  filename = params[:file][:filename]
+  id = params[:id].strip
+  title = params[:title] || params[:id]
+  extension = File.extname(filename)
+  save_path = File.expand_path("data/#{id}#{extension}", APP_ROOT)
+  # Create file
+  FileUtils.mkdir_p(File.dirname(save_path))
+  File.open(save_path, 'wb') { |f| f.write(file.read) }
+  # Create metadata
+  document = Document.new
+  document.set_metadata({
+    'id' => id,
+    'title' => title,
+    'format' => extension.gsub('.', ''),
+    'public' => params.key?('public'),
+    'date' => Date.today.to_s,
+  })
+  document.save
+  # Return result
+  content_type :json
+  { 'success' => true, }.to_json
 end
