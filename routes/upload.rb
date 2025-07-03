@@ -1,7 +1,7 @@
 get '/upload' do
   protected!
   @copy = { title: 'Louis Machin' }
-  erb :upload_picture, locals: { copy: @copy }
+  erb :upload, locals: { copy: @copy }
 end
 
 post '/api/upload' do
