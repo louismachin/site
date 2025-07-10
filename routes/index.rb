@@ -31,28 +31,21 @@ end
 
 get '/about' do
   @copy = { title: "Louis Machin" }
-  @file_path = "./data/about.md"
-  erb :writing, locals: { copy: @copy, file_path: @file_path }
-end
-
-get '/archive' do
-  protected!
-  @copy = { title: "Archive" }
-  @file_path = "./data/about.md"
-  erb :writing, locals: { copy: @copy, file_path: @file_path }
+  @document = Document.new("./data/about.yml")
+  erb :writing, locals: { copy: @copy, document: @document }
 end
 
 get '/read/:id' do
   file_path = "./data/#{params[:id]}.yml"
   @document = Document.new(file_path)
-  redirect '/' unless @document 
+  redirect '/' unless @document
   redirect '/' unless is_logged_in? || @document.is_public?
   @copy = { title: @document.title }
   if @document.is_picture?
-    erb :picture, locals: { document: @document, copy: @copy }
+    erb :picture, locals: { copy: @copy, document: @document }
   elsif @document.is_writing?
-    erb :writing, locals: { document: @document, copy: @copy }
+    erb :writing, locals: { copy: @copy, document: @document }
   elsif @document.is_fragment?
-    erb :fragment, locals: { document: @document, copy: @copy }
+    erb :fragment, locals: { copy: @copy, document: @document }
   end
 end
