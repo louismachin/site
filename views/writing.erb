@@ -7,7 +7,8 @@
     <div id="horz">
         <%= erb :_nav %>
         <div id="main">
-            <%= erb :_markdown, locals: { content: render_markdown(@file_path) } %>
+            <%= erb :_toolbox, locals: { links: { "Edit" => "/write/#{@document.id}", }} %>
+            <%= erb :_markdown, locals: { content: render_markdown(@document.file_path) } %>
         </div>
     </div>
 </body>

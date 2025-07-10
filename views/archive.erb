@@ -18,6 +18,12 @@
     }
 </script>
 
+<style>
+    .type-picture { color: red; }
+    .type-writing { color: blue; }
+    .type-fragment { color: green; }
+</style>
+
 <body>
     <div id="horz">
         <%= erb :_nav %>
@@ -28,20 +34,20 @@
                     <td><a class="link" onclick="togglePublic('<%= entry.id %>')">
                         <%= entry.is_public? ? '👁' : '⨯' %>
                     </a></td>
+                    <!-- Edit -->
+                    <% if entry.is_writing? || entry.is_fragment? %>
+                        <td><a class="link" href="/write/<%= entry.id %>">✎</a></td>
+                    <% else %>
+                        <td></td>
+                    <% end %>
                     <!-- Title -->
                     <td><a class="link" href="/read/<%= entry.id %>">
                         <%= entry.title %>
                     </a></td>
                     <!-- Type -->
-                    <td><%= entry.document_type %></td>
-                    <!-- Edit -->
-                    <% if entry.is_writing? || entry.is_fragment? %>
-                        <td><a class="link" href="/write/<%= entry.id %>">
-                            Edit
-                        </a></td>
-                    <% else %>
-                        <td>-</td>
-                    <% end %>
+                    <td class="type-<%= entry.document_type.downcase %>">
+                        <%= entry.document_type %>
+                    </td>
                 </tr>
             <% end %>
         </table>

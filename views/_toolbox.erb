@@ -1,0 +1,29 @@
+<% if is_logged_in? %>
+
+    <div class="toolbox">
+        <% links.each do |caption, href| %>
+            <a href="<%= href %>"><%= caption %></a>
+        <% end %>
+        <a class="toolbox-close link" onclick="toolboxClose(this)">⨯</a>
+    </div>
+
+    <script>
+        let toolboxClose = (element) => {
+            element.parentElement.style.display = 'none'
+        }
+    </script>
+
+    <style>
+        .toolbox {
+            border: 1px dashed black;
+            width: fit-content;
+            padding: 4px;
+            margin-bottom: 8px;
+        }
+
+        .toolbox > a {
+            padding: 2px;
+        }
+    </style>
+    
+<% end %>

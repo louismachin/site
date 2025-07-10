@@ -7,8 +7,8 @@
     <div id="horz">
         <%= erb :_nav %>
         <div id="main">
-            <% content.each do |entry| %>
-                <%= erb :_fragment, locals: { entry: entry } %>
+            <% content.each do |document| %>
+                <%= erb :_fragment, locals: { document: document } %>
             <% end %>
         </div>
     </div>

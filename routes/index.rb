@@ -44,17 +44,15 @@ end
 
 get '/read/:id' do
   file_path = "./data/#{params[:id]}.yml"
-  document = Document.new(file_path)
-  redirect '/' unless document 
-  redirect '/' unless is_logged_in? || document.is_public?
-  @copy = { title: document.title }
-  @file_path = document.file_path
-  if document.is_picture?
-    erb :picture, locals: { copy: @copy, file_path: @file_path }
-  elsif document.is_writing?
-    erb :writing, locals: { copy: @copy, file_path: @file_path }
-  elsif document.is_fragment?
-    @entry = document
-    erb :fragment, locals: { copy: @copy, entry: @entry }
+  @document = Document.new(file_path)
+  redirect '/' unless @document 
+  redirect '/' unless is_logged_in? || @document.is_public?
+  @copy = { title: @document.title }
+  if @document.is_picture?
+    erb :picture, locals: { document: @document, copy: @copy }
+  elsif @document.is_writing?
+    erb :writing, locals: { document: @document, copy: @copy }
+  elsif @document.is_fragment?
+    erb :fragment, locals: { document: @document, copy: @copy }
   end
 end
