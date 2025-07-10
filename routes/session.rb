@@ -16,6 +16,7 @@ helpers do
 end
 
 get '/login' do
+  redirect '/' if is_logged_in?
   erb :login
 end
 
