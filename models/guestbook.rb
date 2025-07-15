@@ -12,19 +12,17 @@ class Guestbook
 
     def reload
         @data = []
-        if File.file?(@file_path)
-            CSV.foreach(@file_path) do |row|
-                @data << GuestbookEntry.new(
-                    row[0], row[1], row[2], (row[3] == 'true')
-                )
-            end
+        return unless File.file?(@file_path)
+        CSV.foreach(@file_path) do |row|
+            @data << GuestbookEntry.new(
+                row[0], row[1], row[2], (row[3] == 'true')
+            )
         end
     end
 
     def add(name, message)
-        @data << GuestbookEntry.new(
-            name, message, Date.today.strftime('%Y-%m-%d'), true
-        )
+        date = Date.today.strftime('%Y-%m-%d')
+        @data << GuestbookEntry.new(name, message, date, true)
         self.save
     end
 
@@ -32,10 +30,7 @@ class Guestbook
         CSV.open(@file_path, 'w') do |csv|
             @data.each do |entry|
                 csv << [
-                    entry.name,
-                    entry.message,
-                    entry.date,
-                    entry.public
+                    entry.name, entry.message, entry.date, entry.public
                 ]
             end
         end
