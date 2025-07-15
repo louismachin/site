@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+
+<%= erb :_head, locals: { copy: @copy } %>
+
+<style>
+    form {
+        display: flex;
+        flex-direction: column;
+        border: 1px solid black;
+        padding: 16px;
+        margin-bottom: 16px;
+    }
+
+    form input, form textarea {
+        padding: 4px 8px;
+    }
+
+    form textarea {
+        margin: 16px 0;
+    }
+
+    form button {
+        width: fit-content;
+    }
+</style>
+
+<body>
+    <div id="horz">
+        <%= erb :_nav %>
+        <div id="main">
+            <% unless hide_form %>
+                <form action="/guestbook" method="POST">
+                    <input type="text" id="name" name="name" placeholder="Name..." required>
+                    <textarea id="message" name="message" placeholder="Leave your message here..." required></textarea>
+                    <button type="submit">Sign Guestbook</button>
+                </form>
+            <% end %>
+            <div class="guestbook-entries">
+                <% entries.each do |entry| %>
+                    <%= erb :_guestbook_entry, locals: { entry: entry } %>
+                <% end %>
+            </div>
+            <script>
+                document.querySelector('form').addEventListener('submit', async (e) => {
+                    e.preventDefault() // Move this to the top!
+                    
+                    const name = document.getElementById('name').value.trim()
+                    const message = document.getElementById('message').value.trim()
+                    
+                    if (!name || !message) {
+                        alert('Please fill in both name and message fields.')
+                        return
+                    }
+                    
+                    try {
+                        const response = await fetch('/guestbook', {
+                            method: 'POST',
+                            headers: { 'Content-Type': 'application/json' },
+                            body: JSON.stringify({
+                                name: name,
+                                message: message,
+                            }),
+                        })
+                        
+                        if (response.ok) {
+                            window.location = '/guestbook?form=0'
+                        } else {
+                            alert('Submission failed.')
+                        }
+                    } catch (err) {
+                        alert('Error submitting post.')
+                        console.error(err)
+                    }
+                })
+            </script>
+        </div>
+    </div>
+</body>
+
+</html>
