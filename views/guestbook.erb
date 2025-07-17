@@ -32,7 +32,7 @@
             <% unless hide_form %>
                 <form action="/guestbook" method="POST">
                     <input type="text" id="name" name="name" placeholder="Name..." required>
-                    <textarea id="message" name="message" placeholder="Leave your message here..." required></textarea>
+                    <textarea id="message" name="message" placeholder="Leave your message here..." maxlength="256" required></textarea>
                     <button type="submit">Sign Guestbook</button>
                 </form>
             <% end %>
