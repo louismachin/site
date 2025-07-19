@@ -133,7 +133,24 @@ class Document
         @metadata.dig('title')
     end
 
+    def description
+        return 'TODO: Add description'
+    end
+
     def date
         @metadata.dig('date')
+    end
+
+    def time
+        Time.parse(self.date)
+    end
+
+    def pub_date
+        # RSS format
+        self.time.strftime('%a, %d %b %Y %H:%M:%S %z')
+    end
+
+    def link
+        "#{$env.base_url}/read/#{self.id}"
     end
 end

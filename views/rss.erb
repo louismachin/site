@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<rss version="2.0">
+<channel>
+    <title>Louis Machin</title>
+    <description>Louis Machin's personal feed</description>
+    <link>https://louismachin.com</link>
+    <lastBuildDate><%= last_build_date %></lastBuildDate>
+    <pubDate><%= pub_date %></pubDate>
+    <ttl>1440</ttl>
+    <% content.each do |doc| %>
+        <item>
+            <title><%= doc.title %></title>
+            <description><%= doc.description %></description>
+            <link><%= doc.link %></link>
+            <guid isPermaLink="false"><%= doc.id %></guid>
+            <pubDate><%= doc.pub_date %></pubDate>
+        </item>
+    <% end %>
+</channel>
+</rss>

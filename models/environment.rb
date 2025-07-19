@@ -15,6 +15,10 @@ class Environment
         end
     end
 
+    def base_url
+        @data.dig('base_url')
+    end
+
     def port
         @data.dig('port')
     end

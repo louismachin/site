@@ -12,6 +12,7 @@ set :public_folder, File.expand_path('public', __dir__)
 require_relative './helpers/markdown'
 require_relative './helpers/content'
 require_relative './helpers/simple_web'
+require_relative './helpers/music'
 
 require_relative './models/document'
 require_relative './models/guestbook'
@@ -24,3 +25,4 @@ require_relative './routes/content'
 require_relative './routes/guestbook'
 require_relative './routes/astrology'
 require_relative './routes/time'
+require_relative './routes/rss'
