@@ -131,8 +131,12 @@ table.fragment tr {
     border: 1px solid black;
 }
 
-table.fragment th, table.fragment td {
+table.fragment th {
     padding: 8px 16px;
+}
+
+table.fragment td {
+    padding: 0px 16px;
 }
 
 table.fragment .markdown-content {
@@ -149,6 +153,10 @@ table.fragment .markdown-content code {
     font-family: 'Courier New', Courier, monospace;
     line-height: 1.2;
     font-size: 0.8rem;
+}
+
+table.fragment .markdown-content img {
+    max-width: 50%;
 }
 
 /* END OF FRAGMENT */

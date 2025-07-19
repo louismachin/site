@@ -8,7 +8,14 @@ get '/ping' do
 end
 
 get '/ip' do
-  "Your IP address is: #{request.ip}"
+  client_ip = request.env['HTTP_X_FORWARDED_FOR'] || 
+              request.env['HTTP_X_REAL_IP'] || 
+              request.ip
+  
+  # X-Forwarded-For can contain multiple IPs, take the first one
+  client_ip = client_ip.split(',').first.strip if client_ip.include?(',')
+  
+  "Your IP address is: #{client_ip}"
 end
 
 get '/api' do

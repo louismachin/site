@@ -1,8 +1,41 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title><%= copy[:title] %></title>
-    <link rel="stylesheet" href="/css/style.css"> 
+    
+    <!-- Embed -->
+    <meta property="og:type" content="object">
+    <meta property="og:url" content="https://louismachin.com">
+    <meta property="og:site_name" content="louismachin.com">
+    <meta name="author" content="Louis Machin">
+
+    <% if copy[:title] %>
+        <title><%= copy[:title] %></title>
+        <meta property="og:title" content="<%= copy[:title] %>">
+    <% else %>
+        <title>Louis Machin</title>
+    <% end %>
+
+    <% if copy[:description] %>
+        <meta name="description" content="<%= copy[:description] %>">
+        <meta property="og:description" content="<%= copy[:description] %>">
+    <% end %>
+
+    <% if copy[:keywords] %>
+        <meta name="keywords" content="<%= meta.keywords.join(',') %>">
+    <% else %>
+        <meta name="keywords" content="louis,machin,louis machin,blog">
+    <% end %>
+
+    <% rand = (0...8).map { (65 + rand(26)).chr }.join %>
+    <% if copy[:image] %>
+        <meta property="og:image" content="<%= copy[:image] %>?cache=<%= rand %>">
+    <% else %>
+        <meta property="og:image" content="/img/embed_image.png?cache=<%= rand %>">
+    <% end %>
+
     <!-- Favicon -->
     <%= erb :_favicon %>
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="/css/style.css"> 
 </head>
