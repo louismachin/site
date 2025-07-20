@@ -1,5 +1,9 @@
+get '/rss' do
+  redirect '/rss.xml'
+end
+
 get '/rss.xml' do
-  content_type 'text/xml'
+  content_type 'application/rss+xml'
   @content = get_documents(DocumentType::Writing)
   @last_build_date = Time.now.strftime('%a, %d %b %Y %H:%M:%S %z')
   @pub_date = @content.map(&:pub_date).max
