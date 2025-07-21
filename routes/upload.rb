@@ -1,6 +1,6 @@
 get '/upload' do
   protected!
-  @copy = { title: 'Louis Machin' }
+  @copy = $default_copy.but(title: "Louis Machin — Upload")
   erb :upload, locals: { copy: @copy }
 end
 

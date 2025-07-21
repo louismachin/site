@@ -18,6 +18,7 @@ require_relative './helpers/content'
 require_relative './helpers/simple_web'
 # require_relative './helpers/music'
 
+require_relative './models/copy'
 require_relative './models/document'
 require_relative './models/guestbook'
 

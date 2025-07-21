@@ -1,6 +1,6 @@
 get '/write' do
   protected!
-  @copy = { title: 'Louis Machin' }
+  @copy = $default_copy.but(title: "Louis Machin — Write")
   erb :write, locals: { copy: @copy }
 end
 
@@ -8,7 +8,7 @@ get '/write/:id' do
   protected!
   @document = find_document(params[:id])
   if @document
-    @copy = { title: 'Louis Machin' }
+    @copy = $default_copy.but(title: "Louis Machin — Write")
     erb :write, locals: { copy: @copy, document: @document }
   else
     redirect '/'

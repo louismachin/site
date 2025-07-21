@@ -1,30 +1,30 @@
 get '/writings' do
-  @copy = { title: "Writings" }
+  @copy = $default_copy.but(title: "Louis Machin — Writings")
   @content = get_documents(DocumentType::Writing)
   erb :writings, locals: { copy: @copy, content: @content }
 end
 
 get '/fragments' do
-  @copy = { title: "Fragments" }
+  @copy = $default_copy.but(title: "Louis Machin — Fragments")
   @content = get_documents(DocumentType::Fragment)
   erb :fragments, locals: { copy: @copy, content: @content }
 end
 
 get '/pictures' do
-  @copy = { title: "Pictures" }
+  @copy = $default_copy.but(title: "Louis Machin — Pictures")
   @content = get_documents(DocumentType::Picture)
   erb :pictures, locals: { copy: @copy, content: @content }
 end
 
 get '/archive' do
   protected!
-  @copy = { title: "Archive" }
+  @copy = $default_copy.but(title: "Louis Machin — Archive")
   @content = get_documents
   erb :archive, locals: { copy: @copy, content: @content }
 end
 
 get '/about' do
-  @copy = { title: "Louis Machin" }
+  @copy = $default_copy.but(title: "Louis Machin — About")
   @document = Document.new("./data/about.yml")
   erb :writing, locals: { copy: @copy, document: @document }
 end
@@ -34,7 +34,7 @@ get '/read/:id' do
   @document = Document.new(file_path)
   redirect '/' unless @document
   redirect '/' unless is_logged_in? || @document.is_public?
-  @copy = { title: @document.title }
+  @copy = $default_copy.but(title: @document.title)
   if @document.is_picture?
     erb :picture, locals: { copy: @copy, document: @document }
   elsif @document.is_writing?

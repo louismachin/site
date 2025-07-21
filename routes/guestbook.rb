@@ -1,5 +1,5 @@
 get '/guestbook' do
-  @copy = { title: "Guestbook" }
+  @copy = $default_copy.but(title: "Louis Machin — Guestbook")
   @entries = $guestbook.public_entries
   @hide_form = params['form'] == '0'
   erb :guestbook, locals: {
