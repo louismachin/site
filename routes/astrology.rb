@@ -1,5 +1,5 @@
 get '/api/horoscope.json' do
-    bearer_token = $env.data.dig('costar', 'bearer_token')
+    bearer_token = $env.data.dig('third_parties', 'costar', 'bearer_token')
     date = Time.now.utc.iso8601
     uri = "https://api.costarastrology.com/user/current/timeline/v1/daily/#{date}"
     params = {}
@@ -23,8 +23,8 @@ end
 
 get '/api/astro_analysis.json' do
     protected!
-    entity = $env.data.dig('costar', 'birthed_entity')
-    bearer_token = $env.data.dig('costar', 'bearer_token')
+    entity = $env.data.dig('third_parties', 'costar', 'birthed_entity')
+    bearer_token = $env.data.dig('third_parties', 'costar', 'bearer_token')
     uri = "https://api.costarastrology.com/birthed_entity/#{entity}/astro_analysis"
     params = {}
     headers = {
@@ -39,7 +39,7 @@ end
 
 get '/api/costar.json' do
     protected!
-    bearer_token = $env.data.dig('costar', 'bearer_token')
+    bearer_token = $env.data.dig('third_parties', 'costar', 'bearer_token')
     uri = "https://api.costarastrology.com/user/current"
     params = {}
     headers = {
