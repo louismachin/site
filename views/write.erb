@@ -13,12 +13,12 @@
         Notice!
     </div>
     <form id="postForm">
-        <div class="page row inline-fields">
+        <div class="inline-fields">
             <input type="text" id="id" name="id" placeholder="ID" value="<%= document&.id %>">
             <input type="text" id="title" name="title" placeholder="Title" value="<%= document&.title %>">
 
             <div class="toggle-group">
-                <label for="fragment">Fragment?</label>
+                <label for="fragment">⚘</label>
                 <label class="toggle">
                     <input type="checkbox" id="fragment" name="fragment" <%= 'checked' if document&.is_fragment? %>>
                     <span class="slider"></span>
