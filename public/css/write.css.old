@@ -4,36 +4,7 @@
 }
 
 body {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    min-height: 75vh;
     margin: 16px;
-    padding: 0;
-    background-color: rgb(240, 240, 240);
-}
-
-#notification {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    position: absolute;
-    left: 32px;
-    top: 32px;
-    opacity: 0;
-}
-
-div.page {
-    display: flex;
-    flex-direction: column;
-    padding: 16px;
-    background-color: white;
-    box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px;
-}
-
-div.page.row {
-    flex-direction: row;
 }
 
 body * {
@@ -44,7 +15,7 @@ body * {
     display: flex;
     gap: 1em;
     align-items: center;
-    margin-bottom: 32px !important;
+    margin-bottom: 1em;
 }
 
 .toggle {
@@ -58,16 +29,6 @@ body * {
     opacity: 0;
     width: 0;
     height: 0;
-}
-
-input#id, input#title {
-    padding: 0 4px;
-}
-
-.toggle-group {
-    display: flex;
-    align-items: center;
-    gap: 8px;
 }
 
 .slider {
@@ -103,15 +64,12 @@ input#id, input#title {
 }
 
 textarea {
+    width: calc(100vw - 44px);
+    height: calc(100vh - 88px);
     margin: 0;
     padding: 4px;
-    border: none;
-    min-height: 40vh;
-}
-
-textarea:focus {
-    outline: none !important;
 }
 
 #postForm {
+    height: calc(100vh - 32px);
 }
