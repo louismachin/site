@@ -17,6 +17,7 @@ require_relative './helpers/markdown'
 require_relative './helpers/content'
 require_relative './helpers/simple_web'
 require_relative './helpers/forest'
+require_relative './helpers/cipher'
 # require_relative './helpers/music'
 
 require_relative './models/copy'

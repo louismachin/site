@@ -10,6 +10,7 @@ end
 
 class Document
     attr_accessor :metadata
+
     def initialize(file_path = nil)
         @metadata = {}
         load_file(file_path) unless file_path == nil
@@ -62,6 +63,10 @@ class Document
 
     def is_public?
         @metadata.dig('public')
+    end
+
+    def is_private?
+        !self.is_private?
     end
 
     def is_writing?
@@ -119,6 +124,18 @@ class Document
     def content
         if File.file?(self.file_path)
             parse_markdown(self.file_path)
+        else
+            ''
+        end
+    end
+
+    def is_encoded?
+        @metadata.dig('encode')
+    end
+
+    def cipher_text
+        if (is_writing? || is_fragment?) && File.file?(self.file_path)
+            encode_from_file(self.file_path)
         else
             ''
         end
