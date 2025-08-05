@@ -5,16 +5,32 @@ end
 
 def encode(input_text)
 #   puts "input_text:\t#{input_text}"
-    plain_text = input_text.gsub(' ', '').upcase.chars.map { |c| c.ord - 65 }
+    plain_text = input_text.upcase.chars.map { |c| c.ord == 32 ? 32 : c.ord - 65 }
 #   puts "plain_text:\t#{plain_text}"
-    offsets = offset_map(plain_text.size)
-    plain_text.map { |ord| (((ord + offsets.pop) % 26) + 65).chr }.join
+    offsets = offset_map(input_text.gsub(' ', '').size)
+    cipher_text = ''
+    for ord in plain_text do
+        if ord == 32 # space
+            cipher_text += ' '
+        else
+            cipher_text += (((ord + offsets.pop) % 26) + 65).chr
+        end
+    end
+    return cipher_text
 end
 
 def decode(input_text)
-    cipher_text = input_text.gsub(' ', '').upcase.chars.map { |c| c.ord - 65 }
-    offsets = offset_map(cipher_text.size)
-    cipher_text.map { |ord| (((ord - offsets.pop) % 26) + 65).chr }.join
+    cipher_text = input_text.upcase.chars.map { |c| c.ord == 32 ? 32 : c.ord - 65 }
+    offsets = offset_map(input_text.gsub(' ', '').size)
+    plain_text = ''
+    for ord in cipher_text do
+        if ord == 32 # space
+            plain_text += ' '
+        else
+            plain_text += (((ord - offsets.pop) % 26) + 65).chr
+        end
+    end
+    return plain_text
 end
 
 def encode_from_file(file_path)
@@ -22,7 +38,7 @@ def encode_from_file(file_path)
     output = ['']
     # Build plain text
     for line in File.readlines(file_path).map(&:chomp) do
-        line == '' ? output << '' : output[-1] += line.gsub(/[^A-Za-z]/, '') + ''
+        line == '' ? output << '' : output[-1] += line.gsub(/[^A-Za-z ]/, '') + ''
     end
     # Remove any empty lines
     output.select! { |line| line != '' }
@@ -30,9 +46,13 @@ def encode_from_file(file_path)
     return output.map { |line| encode(line) }
 end
 
-# text = 'abc my name is louis machin'
-# puts "text:\t#{text}"
-# cipher_text = encode(text)
-# puts "cipher:\t#{cipher_text}"
-# plain_text = decode(cipher_text)
-# puts "plain:\t#{plain_text}"
+def test_cipher
+    text = 'abc my name is louis machin'
+    puts "text:\t#{text}"
+    cipher_text = encode(text)
+    puts "cipher:\t#{cipher_text}"
+    plain_text = decode(cipher_text)
+    puts "plain:\t#{plain_text}"
+end
+
+# test_cipher

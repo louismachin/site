@@ -14,7 +14,8 @@
             <% @document.cipher_text.each do |cipher_block| %>
                 <span class="cipher-block">
                     <% cipher_block.chars.each do |char| %>
-                        <img class="cipher-symbol" width='24px' height='24px' src="/svg/cipher/<%= char.downcase %>.svg">
+                        <% file = (char == ' ') ? 'space' : char.downcase %>
+                        <img class="cipher-symbol" width='24px' height='24px' src="/svg/cipher/<%= file %>.svg">
                     <% end %>
                 </span>
             <% end %>
