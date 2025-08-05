@@ -1,0 +1,33 @@
+<% if defined? title %>
+    <div class="markdown-content">
+        <h1><%= title %></h1>
+        <hr>
+    </div>
+<% end %>
+
+<div class="cipher">
+    <% document.cipher_text.each do |cipher_block| %>
+        <span class="cipher-block">
+            <% cipher_block.chars.each do |char| %>
+                <% file = (char == ' ') ? 'space' : char.downcase %>
+                <img class="cipher-symbol" width='24px' height='24px' src="/svg/cipher/<%= file %>.svg">
+            <% end %>
+        </span>
+    <% end %>
+</div>
+
+<style>
+    .cipher {
+        display: flex;
+        overflow: none;
+    }
+
+    .cipher-block {
+        padding: 8px 0;
+    }
+
+    .cipher-symbol {
+        width: 24px;
+        height: 24px;
+    }
+</style>

@@ -39,8 +39,6 @@ get '/read/:id' do
     erb :picture, locals: { copy: @copy, document: @document }
   elsif @document.is_fragment?
     erb :fragment, locals: { copy: @copy, document: @document }
-  elsif @document.is_writing? && @document.is_encoded? 
-    erb :cipher, locals: { copy: @copy, document: @document }
   elsif @document.is_writing?
     erb :writing, locals: { copy: @copy, document: @document }
   end
