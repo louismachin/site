@@ -1,6 +1,6 @@
 <div id="nav">
     <a id="name-link" class="link" href="/"><h1>Louis Machin</h1></a>
-    <ul style="width: calc(100% - 32px)">
+    <ul>
         <a class="link" href="/writings"><li>Writings</li></a>
         <a class="link" href="/fragments"><li>Fragments</li></a>
         <a class="link" href="/pictures"><li>Pictures</li></a>
@@ -20,7 +20,20 @@
 </div>
 
 <style>
-    div.divider {
+    #nav ul {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+        width: 100%;
+    }
+
+    @media (min-width: 640px) {
+        #nav ul {
+            width: calc(100% - 32px);
+        }
+    }
+
+    #nav .divider {
         height: 1px;
         margin: 16px 0;
         background-color: black;
