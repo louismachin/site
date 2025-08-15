@@ -87,6 +87,5 @@ get '/robots.txt' do
     Allow: /
     Disallow: /
     Disallow: /api/
-    Disallow: /other-path/
   ROBOTS
 end
