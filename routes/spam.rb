@@ -2,12 +2,12 @@ get '/.env' do
   "Nice try!"
 end
 
-get %r{.*\.php.*} do
+get %r{.*\.php$} do
   status 404
   "Nice try!"
 end
 
-post %r{.*\.php.*} do
+post %r{.*\.php$} do
   status 404
   "Nice try!"
 end
