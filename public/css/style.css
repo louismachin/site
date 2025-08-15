@@ -55,10 +55,6 @@ a.link:hover {
     width: 100%;
 }
 
-.only-mobile {
-    visibility: visible;
-}
-
 @media (min-width: 640px) {
     body {
         display: flex;
@@ -70,10 +66,6 @@ a.link:hover {
         display: grid;
         max-width: 640px;
         grid-template-columns: 160px 1fr;
-    }
-
-    .only-mobile {
-        visibility: hidden;
     }
 }
 

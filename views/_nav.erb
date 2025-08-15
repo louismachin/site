@@ -16,7 +16,7 @@
             <a class="link" href="/api/backup.tar.gz"><li>Backup &#11123;</li></a>
             <a class="link" href="/logout"><li>Logout</li></a>
         <% end %>
-        <div class="divider only-mobile"></div>
+        <div class="divider mobile"></div>
     </ul>
 </div>
 
@@ -28,16 +28,25 @@
         width: 100%;
     }
 
-    @media (min-width: 640px) {
-        #nav ul {
-            width: calc(100% - 32px);
-        }
-    }
-
     #nav .divider {
         height: 1px;
         margin: 16px 0;
         background-color: black;
+    }
+
+    #nav .divider.mobile {
+        visibility: visible;
+        margin-bottom: 0px;
+    }
+
+    @media (min-width: 640px) {
+        #nav ul {
+            width: calc(100% - 32px);
+        }
+
+        #nav .divider.mobile {
+            visibility: hidden;
+        }
     }
 </style>
 
