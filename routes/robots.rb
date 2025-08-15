@@ -3,7 +3,7 @@ def get_ai_robots_txt
   begin
     response = simple_get(raw_uri)
     return [] unless response.code == '200'
-    return simple_get(raw_uri).body.split("\n")
+    return response.body.split("\n")
   rescue
     return []
   end
