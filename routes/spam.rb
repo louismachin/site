@@ -1,13 +1,14 @@
 get '/.env' do
-  "Nice try!"
+  status 418
+  "Nice try, I'm just a teapot!"
 end
 
-get %r{.*\.php$} do
-  status 404
-  "Nice try!"
+get '/*.php' do
+  status 418
+  "I'm a teapot, not a PHP server!"
 end
 
-post %r{.*\.php$} do
-  status 404
-  "Nice try!"
+post '/*.php' do
+  status 418
+  "I'm a teapot, not a PHP server!"
 end
