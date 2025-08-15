@@ -1,5 +1,7 @@
 ENV_FILE_PATH = 'environment.yml'
 
+Cache = Struct.new(:cached_at, :data)
+
 class Environment
     attr_reader :data
     attr_accessor :given_tokens

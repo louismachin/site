@@ -1,12 +1,16 @@
+$ai_rtxt_cache = nil
+
 def get_ai_robots_txt
+  return $ai_rtxt_cache.data if $ai_rtxt_cache && (Time.now - $ai_rtxt_cache.cached_at < 3600)
   raw_uri = 'https://raw.githubusercontent.com/ai-robots-txt/ai.robots.txt/refs/heads/main/robots.txt'
   begin
     response = simple_get(raw_uri)
-    return [] unless response.code == '200'
-    return response.body.split("\n")
+    data = response.code == '200' ? response.body.split("\n") : []
   rescue
-    return []
+    data = []
   end
+  $ai_rtxt_cache = Cache.new(:cached_at => Time.now, :data => data)
+  return data
 end
 
 def get_robots_txt
