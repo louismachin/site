@@ -1,7 +1,7 @@
 $ai_rtxt_cache = nil
 
 def get_ai_robots_txt
-  return $ai_rtxt_cache.data if $ai_rtxt_cache && (Time.now - $ai_rtxt_cache.cached_at < $ai_rtxt_cache.expiry)
+  return $ai_rtxt_cache.data if $ai_rtxt_cache && $ai_rtxt_cache.expired?
   raw_uri = 'https://raw.githubusercontent.com/ai-robots-txt/ai.robots.txt/refs/heads/main/robots.txt'
   begin
     response = simple_get(raw_uri)
