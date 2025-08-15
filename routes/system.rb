@@ -85,7 +85,6 @@ get '/robots.txt' do
   <<~ROBOTS
     User-agent: *
     Allow: /
-    Disallow: /
     Disallow: /api/
   ROBOTS
 end
