@@ -56,7 +56,7 @@ a.link:hover {
 }
 
 .only-mobile {
-    visibility: hidden;
+    visibility: visible;
 }
 
 @media (min-width: 640px) {
@@ -73,7 +73,7 @@ a.link:hover {
     }
 
     .only-mobile {
-        visibility: visible;
+        visibility: hidden;
     }
 }
 
