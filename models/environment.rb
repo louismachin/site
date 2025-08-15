@@ -23,6 +23,10 @@ class Environment
         @data.dig('port')
     end
 
+    def is_production?
+        @data.dig('production')
+    end
+
     def auth_key
         @data.dig('auth_key')
     end
