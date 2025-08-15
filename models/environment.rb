@@ -32,6 +32,13 @@ class Environment
         @given_tokens << token
         token
     end
+
+    def forest_auth
+        [
+            @data.dig('third_parties', 'forest', 'seekruid'),
+            @data.dig('third_parties', 'forest', 'remember_token'),
+        ]
+    end
 end
 
 $env = Environment.new

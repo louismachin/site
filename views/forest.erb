@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+
+<%= erb :_head, locals: { copy: @copy } %>
+
+<style>
+    div#forest {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+    }
+    
+    @media (min-width: 640px) {
+        div#forest {
+            grid-template-columns: repeat(9, 1fr);
+        }
+    }
+
+    div#forest img {
+        width: 100%;
+    }
+
+    img.forest-app-plant {
+        width: 32px;
+    }
+</style>
+
+<body>
+    <div id="horz">
+        <%= erb :_nav %>
+        <div id="main">
+            <span>
+                <h1>Forest App</h1>
+                <p>There's a productivity app I quite like called <a href="https://www.forestapp.cc/">Forest App</a>. I started using it during my collegiate years, and have picked it up every now and again.</p>
+                <p>I thought pulling from its API and showing the digital trees I plant outside of the app might be a bit of fun, if not just an interesting exercise in reverse engineering the API.</p>
+            </span>
+            <div class="divider"></div>
+            <div id="forest">
+                <% @forest.each do |plant| %>
+                    <div>
+                        <img class="" src="<%= plant.image %>">
+                    </div>
+                <% end %>
+            </div>
+            <div class="divider"></div>
+            <table>
+                <% @forest.each do |plant| %>
+                    <tr>
+                        <td><img class="forest-app-plant" src="<%= plant.image %>"></td>
+                        <td><%= plant.type %></td>
+                        <td class="right"><%= plant.start_time.strftime("%-d %B %Y") %></td>
+                    </tr>
+                <% end %>
+            </table>
+        </div>
+    </div>
+</body>
+
+</html>

@@ -37,9 +37,9 @@ get '/read/:id' do
   @copy = $default_copy.but(title: @document.title)
   if @document.is_picture?
     erb :picture, locals: { copy: @copy, document: @document }
-  elsif @document.is_writing?
-    erb :writing, locals: { copy: @copy, document: @document }
   elsif @document.is_fragment?
     erb :fragment, locals: { copy: @copy, document: @document }
+  elsif @document.is_writing?
+    erb :writing, locals: { copy: @copy, document: @document }
   end
 end

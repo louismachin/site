@@ -6,7 +6,11 @@
         </tr>
         <tr>
             <td colspan="2">
-                <div class="markdown-content"><%= document.content %></div>
+                <% unless document.is_encoded? %>
+                    <div class="markdown-content"><%= document.content %></div>
+                <% else %>
+                    <%= erb :_cipher, locals: { document: document } %>
+                <% end %>
             </td>
         </tr>
     </table>

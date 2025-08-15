@@ -161,6 +161,15 @@ table.fragment .markdown-content img {
 
 /* END OF FRAGMENT */
 
+.markdown-content a {
+    color: inherit;
+    cursor: crosshair;
+}
+
+.markdown-content a:hover {
+    text-decoration: underline;
+}
+
 .markdown-content em {
     color: red;
 }
