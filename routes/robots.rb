@@ -9,7 +9,7 @@ def get_ai_robots_txt
   rescue
     data = []
   end
-  $ai_rtxt_cache = Cache.new({ :cached_at => Time.now, :data => data })
+  $ai_rtxt_cache = Cache.new(Time.now, data)
   return data
 end
 
