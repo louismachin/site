@@ -8,10 +8,10 @@
         <%= erb :_nav %>
         <div id="main">
             <%= erb :_toolbox, locals: { links: { "Edit" => "/write/#{@document.id}", }} %>
-            <% unless @document.is_encoded? %>
-                <%= erb :_markdown, locals: { content: render_markdown(@document.file_path) } %>
-            <% else %>
+            <% if @document.is_encoded? && is_not_logged_in? %>
                 <%= erb :_cipher, locals: { document: document, title: 'This is a work in progress.' } %>
+            <% else %>
+                <%= erb :_markdown, locals: { content: render_markdown(@document.file_path) } %>
             <% end %>
         </div>
     </div>

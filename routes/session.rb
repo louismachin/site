@@ -14,6 +14,10 @@ helpers do
     cookie && $env.given_tokens.include?(cookie)
   end
 
+  def is_not_logged_in?
+    return !is_logged_in?
+  end
+
   def protected!
     redirect '/login' unless is_logged_in?
   end
