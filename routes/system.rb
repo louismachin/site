@@ -79,8 +79,3 @@ not_found do
   @copy = $default_copy.but(title: "Louis Machin — 404")
   erb :not_found, locals: { copy: @copy }
 end
-
-get '/robots.txt' do
-  content_type 'text/plain'
-  get_robots_txt
-end

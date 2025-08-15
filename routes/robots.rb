@@ -17,3 +17,8 @@ def get_robots_txt
     "Disallow: /api/"
   ]).join("\n")
 end
+
+get '/robots.txt' do
+  content_type 'text/plain'
+  get_robots_txt
+end
