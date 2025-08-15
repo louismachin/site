@@ -26,6 +26,7 @@ require_relative './models/guestbook'
 
 require_relative './routes/index'
 require_relative './routes/system'
+require_relative './routes/spam'
 require_relative './routes/upload'
 require_relative './routes/session'
 require_relative './routes/write'
