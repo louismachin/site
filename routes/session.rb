@@ -6,6 +6,10 @@ helpers do
   end
 
   def is_logged_in?
+    # Check if sent by param
+    auth_key = request.params['auth_key']
+    return true if auth_key && auth_key == $env.auth_key
+    # Check if cookie is assigned
     cookie = request.cookies[COOKIE_NAME]
     cookie && $env.given_tokens.include?(cookie)
   end
