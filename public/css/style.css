@@ -153,6 +153,12 @@ table.fragment .markdown-content img {
     max-width: 50%;
 }
 
+table.fragment .markdown-content p:has(img) {
+    display: flex;
+    justify-content: center;
+}
+
+
 /* END OF FRAGMENT */
 
 .markdown-content a {
