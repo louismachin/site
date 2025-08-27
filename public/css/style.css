@@ -151,13 +151,9 @@ table.fragment .markdown-content code {
 
 table.fragment .markdown-content img {
     max-width: 50%;
+    display: block;
+    margin: 0 auto;
 }
-
-table.fragment .markdown-content p:has(> img) {
-    display: flex;
-    justify-content: center;
-}
-
 
 /* END OF FRAGMENT */
 
