@@ -1,7 +1,7 @@
 get '/write' do
   protected!
   @copy = $default_copy.but(title: "Louis Machin — Write")
-  erb :write, locals: { copy: @copy }
+  erb :pomera, locals: { copy: @copy }
 end
 
 get '/write/:id' do
@@ -9,7 +9,7 @@ get '/write/:id' do
   @document = find_document(params[:id])
   if @document
     @copy = $default_copy.but(title: "Louis Machin — Write")
-    erb :write, locals: { copy: @copy, document: @document }
+    erb :pomera, locals: { copy: @copy, document: @document }
   else
     redirect '/'
   end
