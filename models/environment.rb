@@ -37,6 +37,10 @@ class Environment
         @data.dig('auth_key')
     end
 
+    def cdn_api_key
+        @data.dig('cdn', 'api_key')
+    end
+
     def new_token
         token = Array.new(12) { [*'0'..'9', *'a'..'z', *'A'..'Z'].sample }.join
         @given_tokens << token

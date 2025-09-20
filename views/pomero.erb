@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+</head>
+
+<% document ||= nil %>
+
+<style>
+    body {
+        margin: 0;
+        background-color: #F1F1F1;
+        overflow: hidden;
+        font-size: 1.2rem;
+    }
+
+    textarea {
+        margin: 0;
+        width: 100vw;
+        height: calc(100dvh - 48px);
+        background-color: inherit;
+        border: none;
+        color: #181818;
+        font-size: 1.2rem;
+    }
+
+    textarea:focus, textarea:active {
+        outline: 0px !important;
+        -webkit-appearance: none;
+        box-shadow: none !important;
+    }
+
+    #bottom {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        width: 100vw;
+        height: 48px;
+        background-color: #181818;
+        color: #F1F1F1;
+    }
+
+    #bottom > div {
+        display: flex;
+        height: 100%;
+        align-items: center;
+        padding: 0 8px;
+    }
+
+    #bottom .left {
+        justify-content: left;
+    }
+
+    #bottom .middle {
+        justify-content: center;
+    }
+
+    #bottom .right {
+        justify-content: right;
+    }
+</style>
+
+<body>
+    <div class="page">
+        <textarea id="body" name="body" placeholder="Write..."><%= document&.raw_content %></textarea>
+        <div id="bottom">
+            <div id="title" class="left"></div>
+            <div id="char-count" class="middle"></div>
+            <div id="notification" class="right"></div>
+        </div>
+    </div>
+</body>
+
+<script>
+    let body_dom = document.getElementById('body')
+    let title_dom = document.getElementById('title')
+    let char_count_dom = document.getElementById('char-count')
+    let notification_dom = document.getElementById('notification')
+
+    let document_title = 'Untitled'
+    title_dom.innerText = document_title
+
+    let notify = (text) => {
+        notification_dom.innerText = text
+    //  notification_dom.style.opacity = 1
+        setTimeout(() => {
+            notification_dom.innerText = ''
+    //      notification_dom.style.opacity = 0
+        }, 3000)
+    }
+
+    document.addEventListener('keydown', (e) => {
+        char_count_dom.innerText = `${body_dom.value.length} characters`
+        if ((e.ctrlKey || e.metaKey) && e.key === 's') {
+            e.preventDefault()
+            submitDocument()
+        }
+    })
+
+    let submitDocument = async () => {
+        const data = {
+            title: document_title,
+            body: body_dom.value,
+        }
+        try {
+            const response = await fetch('/write', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(data),
+            })
+            if (response.ok) {
+                notify('Submitted successfully.')
+            } else {
+                notify('Submission failed.')
+            }
+        } catch (err) {
+            notify('Error submitting post.')
+            console.error(err)
+        }
+    }
+</script>
+
+</html>

@@ -3,6 +3,7 @@
 # Use only for bodge scripts - not production!
 
 require 'net/http'
+require 'cgi'
 require 'uri'
 require 'json'
 require 'date'

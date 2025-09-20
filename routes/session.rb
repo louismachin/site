@@ -21,6 +21,12 @@ helpers do
   def protected!
     redirect '/login' unless is_logged_in?
   end
+
+  def get_ip
+    request.env['HTTP_X_FORWARDED_FOR'] || 
+    request.env['HTTP_X_REAL_IP'] || 
+    request.ip
+  end
 end
 
 get '/login' do
