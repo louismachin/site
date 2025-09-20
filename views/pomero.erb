@@ -12,7 +12,7 @@
         margin: 0;
         background-color: #F1F1F1;
         overflow: hidden;
-        font-size: 1.2rem;
+        font-size: 1.6rem;
         min-height: 100dvh;
     }
 
@@ -22,13 +22,15 @@
 
     textarea {
         margin: 0;
-        padding: 8px;
+        padding-top: 16px;
+        padding-left: 16px;
+        padding-right: 16px;
         width: 100vw;
-        height: calc(100dvh - 48px);
+        height: calc(100dvh - 80px);
         background-color: inherit;
         border: none;
         color: #181818;
-        font-size: 1.2rem;
+        font-size: 1.6rem;
     }
 
     textarea:focus, textarea:active {
@@ -41,7 +43,7 @@
         display: grid;
         grid-template-columns: repeat(3, 1fr);
         width: 100vw;
-        height: 48px;
+        height: 64px;
         background-color: #181818;
         color: #F1F1F1;
     }
@@ -50,7 +52,7 @@
         display: flex;
         height: 100%;
         align-items: center;
-        padding: 0 8px;
+        padding: 0 16px;
     }
 
     #bottom .left {
@@ -88,20 +90,32 @@
 
     let notify = (text) => {
         notification_dom.innerText = text
-    //  notification_dom.style.opacity = 1
-        setTimeout(() => {
-            notification_dom.innerText = ''
-    //      notification_dom.style.opacity = 0
-        }, 3000)
+        setTimeout(() => { setTime() }, 3000)
     }
 
     document.addEventListener('keydown', (e) => {
-        char_count_dom.innerText = `${body_dom.value.length} characters`
         if ((e.ctrlKey || e.metaKey) && e.key === 's') {
             e.preventDefault()
             submitDocument()
         }
     })
+
+    document.addEventListener('keyup', (e) => {
+        char_count_dom.innerText = `${body_dom.value.length} characters`
+    })
+
+    let setTime = () => {
+        notification_dom.innerText = new Date().toLocaleTimeString('en-GB', { 
+            hour: '2-digit', minute: '2-digit', hour12: false 
+        })
+    }
+
+    let clockWait = () => {
+        setTime()
+        setTimeout(() => { clockWait() }, 1000 * 60)
+    }
+
+    clockWait()
 
     let submitDocument = async () => {
         const data = {
@@ -115,12 +129,12 @@
                 body: JSON.stringify(data),
             })
             if (response.ok) {
-                notify('Submitted successfully.')
+                notify('Saved!')
             } else {
-                notify('Submission failed.')
+                notify('Failed!')
             }
         } catch (err) {
-            notify('Error submitting post.')
+            notify('Error!')
             console.error(err)
         }
     }
