@@ -85,18 +85,39 @@
     let char_count_dom = document.getElementById('char-count')
     let notification_dom = document.getElementById('notification')
 
+    let document_id = 'untitled'
     let document_title = 'Untitled'
-    title_dom.innerText = document_title
+    title_dom.innerText = `${document_title} (${document_id}.md)`
 
     let notify = (text) => {
         notification_dom.innerText = text
         setTimeout(() => { setTime() }, 3000)
     }
 
+    let changeID = () => {
+        document_id = prompt('ID:')
+        title_dom.innerText = `${document_title} (${document_id}.md)`
+    }
+
+    let changeTitle = () => {
+        document_title = prompt('Title:')
+        title_dom.innerText = `${document_title} (${document_id}.md)`
+    }
+
     document.addEventListener('keydown', (e) => {
         if ((e.ctrlKey || e.metaKey) && e.key === 's') {
             e.preventDefault()
             submitDocument()
+        }
+
+        if ((e.ctrlKey || e.metaKey) && e.altKey && e.key === 'i') {
+            e.preventDefault()
+            changeID()
+        }
+
+        if ((e.ctrlKey || e.metaKey) && e.altKey && e.key === 't') {
+            e.preventDefault()
+            changeTitle()
         }
     })
 
@@ -119,6 +140,7 @@
 
     let submitDocument = async () => {
         const data = {
+            id: document_id,
             title: document_title,
             body: body_dom.value,
         }

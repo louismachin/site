@@ -18,15 +18,18 @@ end
 post '/write' do
   protected!
   data = JSON.parse(request.body.read)
-  document = Document.new
-  document.set_metadata({
+  file_name = "#{data['id']}.md"
+  document = Document.new(file_name)
+  content = data['body']
+  document.metadata = {
     'id' => data['id'],
     'title' => data['title'],
     'date' => Date.today.to_s,
-    'fragment' => data['fragment'],
-    'public' => data['public'],
-  })
-  document.save(data['body'])
+    'fragment' => data['fragment'] ? 'true' : 'false',
+    'public' => data['public'] ? 'true' : 'false',
+  }
+  document.save_content(content)
+  document.save_metadata
   { success: true }.to_json
 end
 

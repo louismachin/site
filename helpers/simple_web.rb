@@ -8,7 +8,19 @@ require 'uri'
 require 'json'
 require 'date'
 
-def simple_post(url, params = {}, body = nil)
+def simple_post_text(url, params = {}, body = nil)
+    uri = URI(url)
+    uri.query = URI.encode_www_form(params) unless params == {}
+    http = Net::HTTP.new(uri.host, uri.port)
+    http.use_ssl, http.verify_mode = true, OpenSSL::SSL::VERIFY_NONE
+    params['Content-Type'] = 'text/plain'
+    req = Net::HTTP::Post.new(uri.request_uri, params)
+    req.body = body
+    res = http.request(req)
+    return res
+end
+
+def simple_post_json(url, params = {}, body = nil)
     uri = URI(url)
     uri.query = URI.encode_www_form(params) unless params == {}
     http = Net::HTTP.new(uri.host, uri.port)
@@ -31,10 +43,5 @@ end
 
 def simple_get_body(url, params = {}, headers = {})
     res = simple_get(url, params, headers)
-    return res.code == '200' ? JSON.parse(res.body) : {}
-end
-
-def simple_post_body(url, params = {}, headers = {})
-    res = simple_post(url, params, headers)
     return res.code == '200' ? JSON.parse(res.body) : {}
 end

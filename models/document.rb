@@ -32,6 +32,26 @@ class Document
         return data
     end
 
+    def save_content(content)
+        base_uri = "https://cdn.louismachin.com"
+        uri = "#{base_uri}/upload_text/public/blog_content"
+        response = simple_post_text(uri, {
+            api_key: $env.data.dig('cdn_api_key'),
+            filename: @file_name,
+        }, content)
+        puts "save_content\t#{response.code}\t#{response.body}"
+    end
+
+    def save_metadata(metadata = nil)
+        @metadata = metadata unless metadata == nil
+        base_uri = "https://cdn.louismachin.com"
+        uri = "#{base_uri}/info/public/blog_content/#{@file_name}"
+        response = simple_post_json(uri, {
+            api_key: $env.data.dig('cdn_api_key'),
+        }, @metadata)
+        puts "save_metadata\t#{response.code}\t#{response.body}"
+    end
+
     def id
         @file_name.split('.')[0]
     end
