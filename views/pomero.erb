@@ -9,15 +9,24 @@
 
 <style>
     body {
-        margin: 0;
+        margin: 16px;
         background-color: #F1F1F1;
         overflow: hidden;
         font-size: 1.6rem;
-        width: 100dvw;
-        min-height: 100dvh;
+        overflow: hidden;
+        width: calc(100dvw - 32px);
+        height: calc(100dvh - 32px);
     }
 
-    .page {
+    #grid {
+        display: grid;
+        grid-template-rows: 1fr 64px;
+        width: 100%;
+        height: 100%;
+    }
+
+    #top {
+        display: flex;
         width: 100%;
         height: 100%;
     }
@@ -27,8 +36,8 @@
         padding-top: 16px;
         padding-left: 16px;
         padding-right: 16px;
-        width: 100dvw;
-        height: calc(100dvh - 80px);
+        width: 100%;
+        height: 100%;
         background-color: inherit;
         border: none;
         color: #181818;
@@ -44,10 +53,11 @@
     #bottom {
         display: grid;
         grid-template-columns: repeat(3, 1fr);
-        width: 100vw;
+        width: 100%;
         height: 64px;
         background-color: #181818;
         color: #F1F1F1;
+        border-radius: 8px;
     }
 
     #bottom > div {
@@ -71,8 +81,10 @@
 </style>
 
 <body>
-    <div class="page">
-        <textarea id="body" name="body" placeholder="Write..."><%= document&.raw_content %></textarea>
+    <div id="grid">
+        <div id="top">
+            <textarea id="body" name="body" placeholder="Write..."><%= document&.raw_content %></textarea>
+        </div>
         <div id="bottom">
             <div id="title" class="left"></div>
             <div id="char-count" class="middle"></div>
