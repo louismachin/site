@@ -85,8 +85,8 @@
     let char_count_dom = document.getElementById('char-count')
     let notification_dom = document.getElementById('notification')
 
-    let document_id = 'untitled'
-    let document_title = 'Untitled'
+    let document_id = '<%= document ? document.id : 'untitled' %>'
+    let document_title = '<%= document ? document.title : 'Untitled' %>'
     title_dom.innerText = `${document_title} (${document_id}.md)`
 
     let notify = (text) => {
