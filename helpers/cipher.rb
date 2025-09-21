@@ -33,11 +33,11 @@ def decode(input_text)
     return plain_text
 end
 
-def encode_from_file(file_path)
-    return '' unless File.file?(file_path)
+def encode_from_raw_content(raw_content)
+    lines = raw_content.split('\n')
     output = ['']
     # Build plain text
-    for line in File.readlines(file_path).map(&:chomp) do
+    for line in lines do
         line == '' ? output << '' : output[-1] += line.gsub(/[^A-Za-z ]/, '') + ''
     end
     # Remove any empty lines

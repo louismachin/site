@@ -11,32 +11,8 @@ end
 class Document
     attr_accessor :metadata
 
-    def initialize(file_path = nil)
-        @metadata = {}
-        load_file(file_path) unless file_path == nil
-    end
-
-    def save(body = nil)
-        puts "Saving #{self.id}..."
-        puts @metadata.inspect
-        dir = File.join(APP_ROOT, 'data')
-        yaml_path = File.join(dir, "#{self.id}.yml")
-        File.write(yaml_path, @metadata.to_yaml)
-        if body
-            md_path = File.join(dir, "#{self.id}.md")
-            File.write(md_path, body)
-        end
-    end
-
-    def load_file(file_path)
-        if File.file?(file_path)
-            @metadata = YAML.load_file(file_path)
-        else
-            return nil
-        end
-    end
-
-    def set_metadata(metadata)
+    def initialize(file_name = nil, metadata = {})
+        @file_name = file_name
         @metadata = metadata
     end
 
@@ -45,10 +21,10 @@ class Document
             id: self.id,
             title: self.title,
             date: self.date,
-            file_path: self.file_path,
+            uri: self.uri,
         }
         if is_picture?
-            data[:thumbnail_file_path] = self.thumbnail_file_path
+            data[:thumbnail_uri] = self.thumbnail_uri
         end
         if is_fragment?
             data[:content] = self.content
@@ -56,13 +32,12 @@ class Document
         return data
     end
 
-    def toggle_privacy
-        @metadata['public'] = !@metadata.dig('public')
+    def id
+        @file_name.split('.')[0]
     end
 
-
     def is_public?
-        @metadata.dig('public')
+        @metadata.dig('public') == 'true'
     end
 
     def is_private?
@@ -74,12 +49,12 @@ class Document
     end
 
     def is_fragment?
-        val = @metadata.dig('fragment')
+        val = (@metadata.dig('fragment') == 'true')
         val == nil ? false : val
     end
 
     def is_picture?
-        ['png', 'jpg', 'jpeg'].include?(self.format)
+        ['png', 'jpg', 'jpeg'].include?(@file_name.split('.')[1])
     end
 
     def is?(document_type)
@@ -90,64 +65,34 @@ class Document
         return DocumentType::Writing if is_writing?
         return DocumentType::Fragment if is_fragment?
         return DocumentType::Picture if is_picture?
-    end
-
-    def id
-        @metadata.dig('id')
-    end
-
-    def file_path
-        if self.is_picture?
-            "/data/#{self.id}.#{self.format}"
-        else
-            "./data/#{self.id}.#{self.format}"
-        end
-    end
-
-    def thumbnail_file_path
-        thumb_file_path = "./data/#{self.id}.thumb.#{self.format}"
-        if File.file?(thumb_file_path)
-            return thumb_file_path
-        else
-            return self.file_path
-        end
+        return DocumentType::Writing # default
     end
 
     def raw_content
-        if File.file?(self.file_path)
-            File.read(self.file_path)
-        else
-            ''
-        end
+        data = simple_get(self.uri).body
+        data = data.force_encoding('UTF-8')
+        return data
     end
 
     def content
-        if File.file?(self.file_path)
-            parse_markdown(self.file_path)
-        else
-            ''
-        end
+        data = raw_content
+        data ? parse_markdown(data) : ''
     end
 
     def is_encoded?
-        @metadata.dig('encode')
+        @metadata.dig('encode') == 'true'
     end
 
     def cipher_text
-        if (is_writing? || is_fragment?) && File.file?(self.file_path)
-            encode_from_file(self.file_path)
+        if (is_writing? || is_fragment?)
+            encode_from_raw_content(self.raw_content)
         else
             ''
         end
     end
 
-    def format
-        val = @metadata.dig('format')
-        val == nil ? 'md' : val
-    end
-
     def title
-        @metadata.dig('title')
+        @metadata.dig('title') || self.id
     end
 
     def description
@@ -155,7 +100,7 @@ class Document
     end
 
     def date
-        @metadata.dig('date')
+        @metadata.dig('date') || '2020-01-01'
     end
 
     def time
@@ -168,6 +113,15 @@ class Document
     end
 
     def link
-        "#{$env.base_url}/read/#{self.id}"
+        "https://cdn.louismachin.com/dl/public/blog_content/#{@file_name}"
+    end
+
+    def uri
+        "https://cdn.louismachin.com/dl/public/blog_content/#{@file_name}"
+    end
+
+    def thumbnail_uri
+        # TODO: check if .thumb exists
+        "https://cdn.louismachin.com/dl/public/blog_content/#{@file_name}"
     end
 end

@@ -11,7 +11,7 @@
             <% if @document.is_encoded? && is_not_logged_in? %>
                 <%= erb :_cipher, locals: { document: document, title: 'This is a work in progress.' } %>
             <% else %>
-                <%= erb :_markdown, locals: { content: render_markdown(@document.file_path) } %>
+                <%= erb :_markdown, locals: { content: render_markdown(document.uri) } %>
             <% end %>
         </div>
     </div>

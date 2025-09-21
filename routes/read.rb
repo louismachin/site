@@ -25,13 +25,13 @@ end
 
 get '/about' do
   @copy = $default_copy.but(title: "Louis Machin — About")
-  @document = Document.new("./data/about.yml")
+  @document = find_document('about')
+  redirect '/' unless @document
   erb :writing, locals: { copy: @copy, document: @document }
 end
 
 get '/read/:id' do
-  file_path = "./data/#{params[:id]}.yml"
-  @document = Document.new(file_path)
+  @document = find_document(params[:id])
   redirect '/' unless @document
   redirect '/' unless is_logged_in? || @document.is_public?
   @copy = $default_copy.but(title: @document.title)

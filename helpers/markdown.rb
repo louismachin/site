@@ -1,8 +1,6 @@
-def parse_markdown(file_path)
+def parse_markdown(content)
   renderer = Redcarpet::Render::HTML.new(hard_wrap: true)
   markdown = Redcarpet::Markdown.new(renderer, autolink: true, fenced_code_blocks: true)
-
-  content = File.read(file_path)
 
   content.gsub!(/^::(.+?)::$/) do
     "<div class=\"center\">#{Regexp.last_match(1).strip}</div>"
@@ -20,7 +18,14 @@ def parse_markdown(file_path)
 end
 
 helpers do
-  def render_markdown(file_path)
-    parse_markdown(file_path)
+  def render_markdown(uri)
+    begin
+      content = simple_get(uri).body
+      content = content.force_encoding('UTF-8')
+      parse_markdown(content)
+    rescue => e
+      puts e
+      ''
+    end
   end
 end
