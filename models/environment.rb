@@ -41,6 +41,10 @@ class Environment
         @data.dig('cdn', 'api_key')
     end
 
+    def leaf_api_key
+        @data.dig('leaf', 'api_key')
+    end
+
     def new_token
         token = Array.new(12) { [*'0'..'9', *'a'..'z', *'A'..'Z'].sample }.join
         @given_tokens << token

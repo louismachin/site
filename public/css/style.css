@@ -149,7 +149,7 @@ table.fragment .markdown-content code {
     font-size: 0.8rem;
 }
 
-table.fragment .markdown-content img {
+.markdown-content img {
     max-width: 50%;
     display: block;
     margin: 0 auto;

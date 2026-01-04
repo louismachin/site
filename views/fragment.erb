@@ -7,7 +7,7 @@
     <div id="horz">
         <%= erb :_nav %>
         <div id="main">
-            <%= erb :_toolbox, locals: { links: { "Edit" => "/write/#{@document.id}", }} %>
+            <%= erb :_toolbox, locals: { links: { "Edit" => document.edit_uri, }} %>
             <%= erb :_fragment, locals: { document: @document } %>
         </div>
     </div>

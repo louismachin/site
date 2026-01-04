@@ -1,34 +1,30 @@
 $doc_cache = nil
 
-def get_documents(filter_type = nil, ignore_privacy = false)
+def get_uri_list
+  uri = 'https://text.louismachin.com/api/list'
+  body = simple_get_body(uri, { api_key: $env.leaf_api_key, tags: 'blog' })
+  return body['uris']
+end
+
+def get_documents
   if $doc_cache == nil
-    base_uri = "https://cdn.louismachin.com"
-    uri = "#{base_uri}/list/public/blog_content"
-    files = simple_get_body(uri).dig('files')
+    base_uri = 'https://text.louismachin.com'
     documents = []
-    files.each do |file|
-      uri = "#{base_uri}/info/public/blog_content/#{file}"
-      metadata = simple_get_body(uri)
-      documents << Document.new(file, metadata)
+    get_uri_list.each do |path|
+      uri = base_uri + path
+      leaf_json = simple_get_body(uri, { api_key: $env.leaf_api_key })
+      leaf = Leaf.new(uri, leaf_json['attributes'], leaf_json['body'])
+      documents << leaf
     end
-    # Sort by date
-    documents = documents.sort { |a, b| b.date <=> a.date }
-    # Cache full list of documents
-    $doc_cache = documents.map(&:clone)
+    $doc_cache = documents
+    return documents
   else
-    documents = $doc_cache.map(&:clone)
+    return $doc_cache
   end
-  # Filter if filter type selected
-  documents.select! { |doc| doc.is?(filter_type) } unless filter_type == nil
-  # Filter private unless logged in or privacy ignored
-  documents.select! { |doc| doc.is_public? } unless ignore_privacy || is_logged_in? 
-  return documents
 end
 
 def find_document(id)
-  filter_type, ignore_privacy = nil, true
-  get_documents(filter_type, ignore_privacy)
-    .each { |doc| return doc if id == doc.id }
+  get_documents.each { |doc| return doc if id == doc.id }
   return nil
 end
 
