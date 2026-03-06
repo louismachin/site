@@ -110,6 +110,6 @@ class Leaf
     end
 
     def link
-        return ''
+        "#{$env.base_url}/read/#{self.id}"
     end
 end
