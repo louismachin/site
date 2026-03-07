@@ -58,11 +58,15 @@ helpers do
         date = thelemic_date
         return date['plain']['sol']
     #   return "☉︎ in #{date['sol']['deg']}° #{date['sol']['symbol']}"
+    rescue
+        return ''
     end
 
     def nav_luna_date_str
         date = thelemic_date
         return date['plain']['luna']
     #   return "☽︎ in #{date['luna']['deg']}° #{date['luna']['symbol']}"
+    rescue
+        return ''
     end
 end
