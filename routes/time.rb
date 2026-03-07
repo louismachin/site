@@ -46,6 +46,8 @@ def thelemic_date(time = Time.now)
     else
         return { error: 'Could not get the Thelemic date' }
     end
+rescue
+    return { error: 'Could not get the Thelemic date' }
 end
 
 get '/api/thelemic_date.json' do
