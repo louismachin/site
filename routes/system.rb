@@ -57,6 +57,11 @@ get '/api/backup.tar.gz' do
     send_file temp_tar.path, type: 'application/gzip'
 end
 
+get '/reload' do
+	$doc_cache = nil
+	redirect '/'
+end
+
 ALLOWED_EXTENSIONS = ['jpg']
 
 get '/data/:file_name.:ext' do
