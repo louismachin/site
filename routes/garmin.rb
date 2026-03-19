@@ -7,6 +7,7 @@ post '/api/garmin' do
 end
 
 get '/project/garmin' do
+    @copy = $default_copy.but(title: "Louis Machin — Forest")
     @data = $garmin_data
     erb :garmin
 end
