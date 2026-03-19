@@ -2,7 +2,7 @@ $garmin_data = {}
 
 helpers do
     def step_count
-       return $garmin_data.dig('steps') 
+       return $garmin_data.dig('steps') || 0
     end
 end
 
