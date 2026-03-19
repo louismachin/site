@@ -1,5 +1,11 @@
 $garmin_data = {}
 
+helpers do
+    def step_count
+       return $garmin_data.dig('steps') 
+    end
+end
+
 post '/api/garmin' do
     data = JSON.parse(request.body.read)
     $garmin_data = data
