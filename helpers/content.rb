@@ -34,9 +34,10 @@ def get_bad_photos
   uri = 'https://cdn.louismachin.com/list/public/bad_photos'
   body = simple_get_body(uri)
   bad_photos = body["files"].map { |filename| BadPhoto.new(filename) }
-  nokia = bad_photos.select { |bad_photo| bad_photo.nokia? }
-  kodak = bad_photos.select { |bad_photo| bad_photo.kodak? }
-  $bad_photos_cache = kodak.reverse + nokia.reverse
+  $bad_photos_cache = [
+    bad_photos.select(&:kodak?).reverse,
+    bad_photos.select(&:nokia?).reverse,
+  ].flatten
   return $bad_photos_cache
 rescue => e
   puts e.message
@@ -51,10 +52,10 @@ end
 def get_home_content
   result = { writings: [], fragments: [], pictures: [] }
   for document in get_documents do
-    next unless is_logged_in? || document.is_public?
+    next unless is_logged_in? || document.public?
     result[:writings] << document if document.is_writing?
-    result[:fragments] << document if document.is_fragment?
-    result[:pictures] << document if document.is_picture?
+    result[:fragments] << document if document.fragment?
+    result[:pictures] << document if document.picture?
   end
   for key in result.keys do
     result[key] = result[key]

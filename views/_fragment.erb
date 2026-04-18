@@ -6,7 +6,7 @@
         </tr>
         <tr>
             <td colspan="2">
-                <% unless document.is_encoded? %>
+                <% unless document.encoded? %>
                     <div class="markdown-content"><%= document.content %></div>
                 <% else %>
                     <%= erb :_cipher, locals: { document: document } %>

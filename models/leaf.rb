@@ -13,11 +13,11 @@ class Leaf
             title: self.title,
             date: self.date,
         }
-        if is_picture?
+        if picture?
             data[:uri] = self.uri
             data[:thumbnail_uri] = self.thumbnail_uri
         end
-        if is_fragment?
+        if fragment?
             data[:content] = self.content
         end
         return data
@@ -27,25 +27,25 @@ class Leaf
         @attributes.key?('tags') ? @attributes['tags'] : []
     end
 
-    def is_picture?
+    def picture?
         @attributes.key?('media')
     end
 
-    def is_fragment?
+    def fragment?
         return tags.include?('fragment')
     end
     
     def is_writing?
-        return false if is_picture?
-        return false if is_fragment?
+        return false if picture?
+        return false if fragment?
         return true
     end
     
-    def is_public?
+    def public?
         return (!['blog_about'].include?(key))
     end
 
-    def is_encoded?
+    def encoded?
         return tags.include?('encoded')
     end
 
@@ -102,7 +102,7 @@ class Leaf
     end
 
     def cipher_text
-        if (is_writing? || is_fragment?)
+        if (is_writing? || fragment?)
             encode_from_raw_content(self.raw_content)
         else
             ''

@@ -94,11 +94,11 @@ a.link:hover {
     display: grid;
     grid-gap: 16px;
     grid-template-columns: 1fr;
+    overflow-x: hidden;
 }
 
 #pictures > div {
     display: flex;
-    aspect-ratio : 1 / 1;
 }
 
 #pictures img {

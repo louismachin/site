@@ -19,11 +19,11 @@ class BadPhoto
         return @filename.start_with?("Photo")
     end
 
-    def is_public?
+    def public?
         return true
     end
 
-    def is_picture?
+    def picture?
         return true
     end
 
