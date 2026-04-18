@@ -22,6 +22,7 @@ require_relative './helpers/cipher'
 
 require_relative './models/copy'
 require_relative './models/leaf'
+require_relative './models/bad_photo'
 require_relative './models/guestbook'
 
 require_relative './routes/index'

@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+
+<%= erb :_head, locals: { copy: @copy } %>
+
+<body>
+    <div id="horz">
+        <%= erb :_nav %>
+        <div id="main">
+            <div id="pictures">
+                <% bad_photos.each do |bad_photos| %>
+                    <div><img
+                        style="cursor: crosshair;"
+                        src="<%= bad_photo.uri %>"
+                    /></div>
+                <% end %>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>

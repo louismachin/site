@@ -15,6 +15,13 @@
                         src="<%= entry.thumbnail_uri %>"
                     /></div>
                 <% end %>
+                <% bad_photos.each do |bad_photo| %>
+                    <div><img
+                        style="cursor: crosshair;"
+                        onclick="window.location = '/read/<%= bad_photo.id %>?bad_photo=1'"
+                        src="<%= bad_photo.uri %>"
+                    /></div>
+                <% end %>
             </div>
         </div>
     </div>

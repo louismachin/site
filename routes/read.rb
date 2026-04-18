@@ -13,7 +13,9 @@ end
 get '/pictures' do
     @copy = $default_copy.but(title: "Louis Machin — Pictures")
     @content = get_documents.select { |doc| doc.is_picture? && doc.is_public? }
-    erb :pictures, locals: { copy: @copy, content: @content }
+    @bad_photos = get_bad_photos
+    puts @bad_photos
+    erb :pictures, locals: { copy: @copy, content: @content, bad_photos: @bad_photos }
 end
 
 get '/about' do
@@ -24,7 +26,8 @@ get '/about' do
 end
 
 get '/read/:id' do
-    @document = find_document(params[:id])
+    id = params[:id]
+    @document = params[:bad_photo] ? find_bad_photo(id) : find_document(id)
     redirect '/' unless @document
     redirect '/' unless is_logged_in? || @document.is_public?
     @copy = $default_copy.but(title: @document.title)
