@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+
+<%= erb :_head, locals: { copy: @copy } %>
+
+<body>
+    <div id="horz">
+        <%= erb :_nav %>
+        <div id="main">
+            <table id="podiums-reviews">
+                <% podiums_reviews.sort { |a, b| b.inferred_rating <=> a.inferred_rating }.each do |review| %>
+                    <tr>
+                        <td><img src="<%= review.media_image_uri %>"></td>
+                        <td><%= review.media_title %></td>
+                        <td><%= review.media_subtitle %></td>
+                        <td><%= review.inferred_rating.round %></td>
+                        <td><%= review.comment ? "\"#{review.comment}\"" : '' %></td>
+                    </tr>
+                <% end %>
+            </table>
+        </div>
+    </div>
+</body>
+
+<style>
+    #podiums-reviews img {
+        height: 32px;
+        aspect-ratio: 1/1;
+        margin-right: 8px;
+    }
+</style>
+
+</html>
+
+<!--
+PodiumsReview = Struct.new(
+    :id,
+    :inferred_rating,
+    :sort_rating,
+    :bucket,
+    :comment,
+    :media_title,
+    :media_subtitle,
+    :media_image_uri,
+)
+-->

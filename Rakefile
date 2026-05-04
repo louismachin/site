@@ -3,6 +3,11 @@ task :run do
   Sinatra::Application.run!
 end
 
+task :no_run do
+  require_relative './app.rb'
+# Sinatra::Application.run!
+end
+
 namespace :dev do
   desc "Download and unpack data from live instance"
   task :sync_from_live do

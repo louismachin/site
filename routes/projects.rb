@@ -6,10 +6,18 @@ get '/project/forest' do
     }
 end
 
+get '/project/music_reviews' do
+    @copy = $default_copy.but(title: "Louis Machin — Music Reviews")
+    @podiums_reviews = get_podiums_reviews
+    erb :podiums_reviews, locals: {
+        copy: @copy, podiums_reviews: @podiums_reviews,
+    }
+end
+
 get '/project/bad_photos' do
     @copy = $default_copy.but(title: "Louis Machin — Bad Photos")
-    @filenames = get_bad_photos
+    @bad_photos = get_bad_photos
     erb :bad_photos, locals: {
-        copy: @copy, filenames: @filenames,
+        copy: @copy, bad_photos: @bad_photos,
     }
 end
