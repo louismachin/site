@@ -8,7 +8,7 @@
         <%= erb :_nav %>
         <div id="main">
             <div id="pictures">
-                <% bad_photos.each do |bad_photos| %>
+                <% @bad_photos.each do |bad_photo| %>
                     <div><img
                         style="cursor: crosshair;"
                         src="<%= bad_photo.uri %>"
