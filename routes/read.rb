@@ -1,18 +1,18 @@
 get '/writings' do
     @copy = $default_copy.but(title: "Louis Machin — Writings")
-    @content = get_documents.select { |doc| doc.is_writing? && doc.public? }
+    @content = get_documents.select { |doc| doc.is_writing? && doc.public? }.sort { |a, b| b.date <=> a.date }
     erb :writings, locals: { copy: @copy, content: @content }
 end
 
 get '/fragments' do
     @copy = $default_copy.but(title: "Louis Machin — Fragments")
-    @content = get_documents.select { |doc| doc.fragment? && doc.public? }
+    @content = get_documents.select { |doc| doc.fragment? && doc.public? }.sort { |a, b| b.date <=> a.date }
     erb :fragments, locals: { copy: @copy, content: @content }
 end
 
 get '/pictures' do
     @copy = $default_copy.but(title: "Louis Machin — Pictures")
-    @content = get_documents.select { |doc| doc.picture? && doc.public? }
+    @content = get_documents.select { |doc| doc.picture? && doc.public? }.sort { |a, b| b.date <=> a.date }
     @bad_photos = get_bad_photos
     erb :pictures, locals: { copy: @copy, content: @content, bad_photos: @bad_photos }
 end
