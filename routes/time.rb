@@ -21,6 +21,30 @@ def thelemic_date(time = Time.now)
         end
     end
     query = time.strftime("%Y-%m-%d %H:%M:%S").gsub(' ', '%20')
+    uri = "https://jyot.io/api/thelemic_date.json"
+    response = simple_get(uri)
+    if response.code == '200'
+        body = JSON.parse(response.body)
+        puts body.inspect
+        body['readme'] = 'This functionality is powered by https://jyot.io'
+        $thelemic_date_cache = body
+        $thelemic_date_cached_at = Time.now
+        return body
+    else
+        return { error: 'Could not get the Thelemic date' }
+    end
+rescue
+    return { error: 'Could not get the Thelemic date' }
+end
+
+def old_thelemic_date(time = Time.now)
+    if $thelemic_date_cache
+        elapsed_seconds = Time.now - $thelemic_date_cached_at
+        if elapsed_seconds < $thelemic_date_cache_expiry
+            return $thelemic_date_cache
+        end
+    end
+    query = time.strftime("%Y-%m-%d %H:%M:%S").gsub(' ', '%20')
     uri = "https://date.eralegis.info/#{query}.json"
     response = simple_get(uri)
     if response.code == '200'
@@ -58,7 +82,8 @@ end
 helpers do
     def nav_sol_date_str
         date = thelemic_date
-        return date['plain']['sol']
+        return date['sol']
+    #   return date['plain']['sol']
     #   return "☉︎ in #{date['sol']['deg']}° #{date['sol']['symbol']}"
     rescue
         return ''
@@ -66,7 +91,8 @@ helpers do
 
     def nav_luna_date_str
         date = thelemic_date
-        return date['plain']['luna']
+        return date['luna']
+    #   return date['plain']['luna']
     #   return "☽︎ in #{date['luna']['deg']}° #{date['luna']['symbol']}"
     rescue
         return ''
