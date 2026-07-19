@@ -32,7 +32,7 @@ def get_home_content
     result = { writings: [], fragments: [], pictures: [] }
     for document in get_documents do
         next unless is_logged_in? || document.public?
-        result[:writings] << document if document.writing?
+        result[:writings] << document if document.writing? && (!document.fragment?)
         result[:fragments] << document if document.fragment?
         result[:pictures] << document if document.picture?
     end
