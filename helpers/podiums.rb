@@ -18,7 +18,7 @@ PodiumsReview = Struct.new(
 
 def get_podiums_reviews
     # TODO: handle paginated API
-    base_uri = $env.data.dig('third_parties', 'podiums', 'base_uri')
+    base_uri = $env.data.dig('third_parties', 'podiums', 'base_url')
     bearer_token = $env.data.dig('third_parties', 'podiums', 'bearer_token')
     response = simple_get_body(base_uri + '/users/louisinlvx/reviews', {}, { 'Authorization' => bearer_token })
     result = []

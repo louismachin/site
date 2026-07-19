@@ -58,7 +58,7 @@ get '/api/backup.tar.gz' do
 end
 
 get '/reload' do
-	$doc_cache = nil
+	$ark_cache = nil
     $bad_photos_cache = nil
 	redirect '/'
 end

@@ -1,6 +1,6 @@
 get '/writings' do
     @copy = $default_copy.but(title: "Louis Machin — Writings")
-    @content = get_documents.select { |doc| doc.is_writing? && doc.public? }.sort { |a, b| b.date <=> a.date }
+    @content = get_documents.select { |doc| doc.writing? && (!doc.fragment?) && doc.public? }.sort { |a, b| b.date <=> a.date }
     erb :writings, locals: { copy: @copy, content: @content }
 end
 
@@ -34,7 +34,7 @@ get '/read/:id' do
         erb :picture, locals: { copy: @copy, document: @document }
     elsif @document.fragment?
         erb :fragment, locals: { copy: @copy, document: @document }
-    elsif @document.is_writing?
+    elsif @document.writing?
         erb :writing, locals: { copy: @copy, document: @document }
     end
 end

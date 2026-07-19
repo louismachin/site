@@ -5,7 +5,7 @@ end
 get '/rss.xml' do
     content_type 'application/rss+xml'
     @content = get_documents
-        .select { |document| document.is_writing? && document.public? }
+        .select { |document| document.writing? && document.public? }
         .reject { |document| document.encoded? }
     @last_build_date = Time.now.strftime('%a, %d %b %Y %H:%M:%S %z')
     @pub_date = @content.map(&:pub_date).max

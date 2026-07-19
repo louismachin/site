@@ -25,45 +25,7 @@ def thelemic_date(time = Time.now)
     response = simple_get(uri)
     if response.code == '200'
         body = JSON.parse(response.body)
-        puts body.inspect
         body['readme'] = 'This functionality is powered by https://jyot.io'
-        $thelemic_date_cache = body
-        $thelemic_date_cached_at = Time.now
-        return body
-    else
-        return { error: 'Could not get the Thelemic date' }
-    end
-rescue
-    return { error: 'Could not get the Thelemic date' }
-end
-
-def old_thelemic_date(time = Time.now)
-    if $thelemic_date_cache
-        elapsed_seconds = Time.now - $thelemic_date_cached_at
-        if elapsed_seconds < $thelemic_date_cache_expiry
-            return $thelemic_date_cache
-        end
-    end
-    query = time.strftime("%Y-%m-%d %H:%M:%S").gsub(' ', '%20')
-    uri = "https://date.eralegis.info/#{query}.json"
-    response = simple_get(uri)
-    if response.code == '200'
-        body = JSON.parse(response.body)
-        body['sol']['symbol'] = THELEMIC_DATE_SIGNS[body['sol']['sign']]
-        body['luna']['symbol'] = THELEMIC_DATE_SIGNS[body['luna']['sign']]
-        body['en'] = [
-            THELEMIC_DATE_ROMAN[body['year'][0]].upcase,
-            THELEMIC_DATE_ROMAN[body['year'][1]]
-        ].join(':')
-        body['plain'] = {
-            'full'     => body['plain'],
-            'sol'      => body['plain'].split(' : ')[0],
-            'luna'     => body['plain'].split(' : ')[1],
-            'day'      => body['plain'].split(' : ')[2],
-            'year'     => body['plain'].split(' : ')[3],
-            'year_alt' => "Anno #{body['en']} e.n.",
-        }
-        body['readme'] = 'This functionality is powered by https://eralegis.info'
         $thelemic_date_cache = body
         $thelemic_date_cached_at = Time.now
         return body
@@ -81,19 +43,13 @@ end
 
 helpers do
     def nav_sol_date_str
-        date = thelemic_date
-        return date['sol']
-    #   return date['plain']['sol']
-    #   return "☉︎ in #{date['sol']['deg']}° #{date['sol']['symbol']}"
+        return thelemic_date['sol']
     rescue
         return ''
     end
 
     def nav_luna_date_str
-        date = thelemic_date
-        return date['luna']
-    #   return date['plain']['luna']
-    #   return "☽︎ in #{date['luna']['deg']}° #{date['luna']['symbol']}"
+        return thelemic_date['luna']
     rescue
         return ''
     end

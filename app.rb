@@ -13,18 +13,18 @@ configure do
     disable :protection
 end
 
+require_relative './models/copy'
+require_relative './models/ark_iota'
+require_relative './models/bad_photo'
+require_relative './models/guestbook'
+
 require_relative './helpers/simple_web'
 require_relative './helpers/markdown'
 require_relative './helpers/content'
 require_relative './helpers/forest'
 require_relative './helpers/cipher'
 require_relative './helpers/podiums'
-# require_relative './helpers/music'
-
-require_relative './models/copy'
-require_relative './models/leaf'
-require_relative './models/bad_photo'
-require_relative './models/guestbook'
+require_relative './helpers/ark'
 
 require_relative './routes/index'
 require_relative './routes/system'
