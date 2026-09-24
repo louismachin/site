@@ -25,6 +25,7 @@
     const REFRESH_MS = 60 * 1000
     const SHOW_LABELS = false
     const SHOW_ANGLES = false
+    const SHOW_ASC = false
 
     // key,
     // label,
@@ -158,17 +159,25 @@
         // Zodiac band
         ctx.globalAlpha = 1
         const bands = [R, R - band]
-        bands.forEach(r => { ctx.beginPath(); ctx.arc(cx, cy, r, 0, Math.PI * 2); ctx.stroke(); })
+        bands.forEach(r => {
+            ctx.beginPath()
+            ctx.arc(cx, cy, r, 0, Math.PI * 2)
+            ctx.stroke()
+        })
         for (let i = 0; i < 12; i++) {
             const [x1, y1] = point(cx, cy, i * 30, R - band)
             const [x2, y2] = point(cx, cy, i * 30, R)
-            ctx.beginPath(); ctx.moveTo(x1, y1); ctx.lineTo(x2, y2); ctx.stroke()
+            ctx.beginPath()
+            ctx.moveTo(x1, y1)
+            ctx.lineTo(x2, y2)
+            ctx.stroke()
         }
         ctx.globalAlpha = 1
         ctx.textAlign = 'center'
         ctx.textBaseline = 'middle'
         for (let i = 0; i < 12; i++) {
             const [tx, ty] = point(cx, cy, i * 30 + 15, R - band / 2)
+            ctx.fillStyle = ['red', 'green', 'orange', 'blue'][i % 4]
             ctx.fillText(SIGNS[i], tx, ty)
         }
 
@@ -178,18 +187,23 @@
         ctx.setLineDash([4, 8])
         const rings = [...new Set(present.map(b => b[2]))]
         rings.forEach(f => {
-            ctx.beginPath(); ctx.arc(cx, cy, R * f, 0, Math.PI * 2); ctx.stroke()
-        });
+            ctx.beginPath()
+            ctx.arc(cx, cy, R * f, 0, Math.PI * 2)
+            ctx.stroke()
+        })
         ctx.setLineDash([])
 
         // Ascendant (label offset beside the line)
-        if (data.ascendant) {
+        if (SHOW_ASC && data.ascendant) {
             const lon = data.ascendant.longitude
             const [ax, ay] = point(cx, cy, lon, R - band)
             ctx.globalAlpha = 0.8
             ctx.strokeStyle = '#D85A30'
             ctx.setLineDash([5, 4])
-            ctx.beginPath(); ctx.moveTo(cx, cy); ctx.lineTo(ax, ay); ctx.stroke()
+            ctx.beginPath()
+            ctx.moveTo(cx, cy)
+            ctx.lineTo(ax, ay)
+            ctx.stroke()
             ctx.setLineDash([])
             const [lx, ly] = point(cx, cy, lon, R * 0.93 - band)
             const a = lon * Math.PI / 180
@@ -204,7 +218,9 @@
         // Earth
         if (failed.has('earth')) {
             ctx.fillStyle = '#378ADD'
-            ctx.beginPath(); ctx.arc(cx, cy, 16 * scale, 0, Math.PI * 2); ctx.fill()
+            ctx.beginPath()
+            ctx.arc(cx, cy, 16 * scale, 0, Math.PI * 2)
+            ctx.fill()
         } else {
             place('earth', cx, cy, size)
         }
