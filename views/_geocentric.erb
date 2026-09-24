@@ -112,9 +112,13 @@
         if (key === 'rahu') {
             // Eclipse: black disc, thin corona ring
             ctx.strokeStyle = '#FFCC00'
-            ctx.beginPath(); ctx.arc(x, y, r + 2, 0, Math.PI * 2); ctx.stroke()
+            ctx.beginPath()
+            ctx.arc(x, y, r + 2, 0, Math.PI * 2)
+            ctx.stroke()
             ctx.fillStyle = '#000000'
-            ctx.beginPath(); ctx.arc(x, y, r, 0, Math.PI * 2); ctx.fill()
+            ctx.beginPath()
+            ctx.arc(x, y, r, 0, Math.PI * 2)
+            ctx.fill()
         } else {
             // Comet: hollow head, straight tail pointing away from Earth
             const dx = x - cx, dy = y - cy, len = Math.hypot(dx, dy) || 1
@@ -124,7 +128,9 @@
             ctx.moveTo(x + ux * r, y + uy * r)
             ctx.lineTo(x + ux * r * 3, y + uy * r * 3)
             ctx.stroke()
-            ctx.beginPath(); ctx.arc(x, y, r, 0, Math.PI * 2); ctx.stroke()
+            ctx.beginPath()
+            ctx.arc(x, y, r, 0, Math.PI * 2)
+            ctx.stroke()
         }
         ctx.restore()
     }
