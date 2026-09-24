@@ -1,0 +1,266 @@
+<div class="geo-wrap">
+    <div class="geo-stage" id="geo-stage">
+        <canvas id="geo-canvas"></canvas>
+    </div>
+    <div class="geo-controls">
+        <button type="button" data-mode="tropical" class="active">Tropical</button>
+        <button type="button" data-mode="sidereal">Sidereal</button>
+    </div>
+    <p class="geo-status" id="geo-status">Loading…</p>
+</div>
+
+<style>
+    .geo-wrap { width: 100%; margin: 0 auto; }
+    .geo-controls { display: flex; gap: 8px; justify-content: center; margin-top: 16px; }
+    .geo-stage { position: relative; width: 100%; aspect-ratio: 1; }
+    #geo-canvas { position: absolute; inset: 0; width: 100%; height: 100%; display: block; }
+    .geo-planet { position: absolute; transform: translate(-50%, -50%); pointer-events: none; clip-path: circle(47%); }
+    .geo-status { text-align: center; margin: 4px 0 0; }
+</style>
+
+<script>
+(() => {
+    const ENDPOINT = 'https://jyot.io/utc_time/now.json'
+    const IMG_BASE = './img/planets/'
+    const REFRESH_MS = 60 * 1000
+    const SHOW_LABELS = false
+    const SHOW_ANGLES = false
+
+    // key,
+    // label,
+    // orbit radius (fraction of chart radius),
+    // fallback dot colour, image size at 640px
+    const BODIES = [
+        ['moon',    '☽\uFE0E', 0.22, '#888780', 22],
+        ['mercury', '☿\uFE0E', 0.29, '#7F77DD', 20],
+        ['venus',   '♀\uFE0E', 0.36, '#7F77DD', 22],
+        ['sun',     '☉\uFE0E', 0.43, '#EF9F27', 32],
+        ['mars',    '♂\uFE0E', 0.50, '#7F77DD', 22],
+        ['jupiter', '♃\uFE0E', 0.57, '#7F77DD', 30],
+        ['saturn',  '♄\uFE0E', 0.64, '#7F77DD', 34],
+        ['uranus',  '♅\uFE0E', 0.71, '#7F77DD', 24],
+        ['neptune', '♆\uFE0E', 0.78, '#7F77DD', 24],
+        ['pluto',   '♇\uFE0E', 0.85, '#7F77DD', 18],
+        ['rahu',    '☊\uFE0E', 0.22, '#1D9E75', 18],
+        ['ketu',    '☋\uFE0E', 0.22, '#1D9E75', 18],
+    ]
+    const EARTH_SIZE = 40
+    const SIGNS = ['♈','♉','♊','♋','♌','♍','♎','♏','♐','♑','♒','♓'].map(s => s + '\uFE0E')
+    const stage = document.getElementById('geo-stage')
+    const canvas = document.getElementById('geo-canvas')
+    const ctx = canvas.getContext('2d')
+    const status = document.getElementById('geo-status')
+    const buttons = document.querySelectorAll('.geo-controls button')
+
+    let payload = null
+    let mode = 'tropical'
+    const images = {}
+    const failed = new Set()
+
+    function makeImage(key, sizeAt640) {
+        const img = document.createElement('img')
+        img.className = 'geo-planet'
+        img.src = IMG_BASE + key + '.gif'
+        img.alt = key
+        img.style.width = (sizeAt640 / 640 * 150) + '%'
+        img.style.display = 'none'
+        img.style.pointerEvents = 'auto'
+        img.onerror = () => {
+            failed.add(key)
+            img.remove()
+            draw()
+        }
+        stage.appendChild(img)
+        images[key] = img
+    }
+
+    makeImage('earth', EARTH_SIZE)
+    BODIES.forEach(([key, , , , size]) => makeImage(key, size))
+
+    const pageStyle = () => {
+        const s = getComputedStyle(stage)
+        return { color: s.color, font: s.fontFamily, size: parseFloat(s.fontSize) }
+    }
+
+    // 0° Aries on the left, longitude increasing anticlockwise
+    const point = (cx, cy, lon, r) => {
+        const a = lon * Math.PI / 180
+        return [cx - r * Math.cos(a), cy + r * Math.sin(a)]
+    }
+
+    const dm = (lon) => {
+        const d = ((lon % 30) + 30) % 30
+        return Math.floor(d) + '°' + String(Math.floor((d % 1) * 60)).padStart(2, '0') + "'"
+    };
+
+    const place = (key, x, y, size) => {
+        const img = images[key]
+        if (!img || failed.has(key)) return
+        img.style.left = (x / size * 100) + '%'
+        img.style.top = (y / size * 100) + '%'
+        img.style.display = ''
+    }
+
+    function drawNode(key, x, y, r, cx, cy) {
+        x = Math.round(x) + 0.5
+        y = Math.round(y) + 0.5
+        r = Math.round(r)
+        ctx.save()
+        ctx.globalAlpha = 1
+        ctx.lineWidth = 1
+        if (key === 'rahu') {
+            // Eclipse: black disc, thin corona ring
+            ctx.strokeStyle = '#FFCC00'
+            ctx.beginPath(); ctx.arc(x, y, r + 2, 0, Math.PI * 2); ctx.stroke()
+            ctx.fillStyle = '#000000'
+            ctx.beginPath(); ctx.arc(x, y, r, 0, Math.PI * 2); ctx.fill()
+        } else {
+            // Comet: hollow head, straight tail pointing away from Earth
+            const dx = x - cx, dy = y - cy, len = Math.hypot(dx, dy) || 1
+            const ux = dx / len, uy = dy / len
+            ctx.strokeStyle = '#000000'
+            ctx.beginPath()
+            ctx.moveTo(x + ux * r, y + uy * r)
+            ctx.lineTo(x + ux * r * 3, y + uy * r * 3)
+            ctx.stroke()
+            ctx.beginPath(); ctx.arc(x, y, r, 0, Math.PI * 2); ctx.stroke()
+        }
+        ctx.restore()
+    }
+
+    function resize() {
+        const dpr = window.devicePixelRatio || 1
+        const size = stage.clientWidth
+        canvas.width = size * dpr
+        canvas.height = size * dpr
+        ctx.setTransform(dpr, 0, 0, dpr, 0, 0)
+        draw()
+    }
+
+    function draw() {
+        const size = stage.clientWidth
+        const { color, font: family, size: fontPx } = pageStyle()
+        ctx.clearRect(0, 0, size, size)
+        Object.values(images).forEach(img => img.style.display = 'none')
+        if (!payload || !payload[mode]) return
+
+        const data = payload[mode]
+        const scale = size / 640
+        const cx = size / 2, cy = size / 2
+        const R = size / 2 - 8
+        const band = R * 0.09
+
+        ctx.font = `${fontPx}px ${family}`
+        ctx.strokeStyle = color
+        ctx.fillStyle = color
+        ctx.lineWidth = 1
+
+        // Zodiac band
+        ctx.globalAlpha = 1
+        const bands = [R, R - band]
+        bands.forEach(r => { ctx.beginPath(); ctx.arc(cx, cy, r, 0, Math.PI * 2); ctx.stroke(); })
+        for (let i = 0; i < 12; i++) {
+            const [x1, y1] = point(cx, cy, i * 30, R - band)
+            const [x2, y2] = point(cx, cy, i * 30, R)
+            ctx.beginPath(); ctx.moveTo(x1, y1); ctx.lineTo(x2, y2); ctx.stroke()
+        }
+        ctx.globalAlpha = 1
+        ctx.textAlign = 'center'
+        ctx.textBaseline = 'middle'
+        for (let i = 0; i < 12; i++) {
+            const [tx, ty] = point(cx, cy, i * 30 + 15, R - band / 2)
+            ctx.fillText(SIGNS[i], tx, ty)
+        }
+
+        // Orbit rings
+        const present = BODIES.filter(([k]) => data[k])
+        ctx.globalAlpha = 0.25
+        ctx.setLineDash([4, 8])
+        const rings = [...new Set(present.map(b => b[2]))]
+        rings.forEach(f => {
+            ctx.beginPath(); ctx.arc(cx, cy, R * f, 0, Math.PI * 2); ctx.stroke()
+        });
+        ctx.setLineDash([])
+
+        // Ascendant (label offset beside the line)
+        if (data.ascendant) {
+            const lon = data.ascendant.longitude
+            const [ax, ay] = point(cx, cy, lon, R - band)
+            ctx.globalAlpha = 0.8
+            ctx.strokeStyle = '#D85A30'
+            ctx.setLineDash([5, 4])
+            ctx.beginPath(); ctx.moveTo(cx, cy); ctx.lineTo(ax, ay); ctx.stroke()
+            ctx.setLineDash([])
+            const [lx, ly] = point(cx, cy, lon, R * 0.93 - band)
+            const a = lon * Math.PI / 180
+            const off = fontPx * 0.9
+            ctx.fillStyle = '#D85A30'
+            if (SHOW_LABELS) ctx.fillText(SHOW_ANGLES ? '↑ ' + dm(lon) : '↑', lx + Math.sin(a) * off, ly + Math.cos(a) * off)
+        }
+
+        ctx.globalAlpha = 1
+        ctx.fillStyle = color
+
+        // Earth
+        if (failed.has('earth')) {
+            ctx.fillStyle = '#378ADD'
+            ctx.beginPath(); ctx.arc(cx, cy, 16 * scale, 0, Math.PI * 2); ctx.fill()
+        } else {
+            place('earth', cx, cy, size)
+        }
+
+        // Planets
+        ctx.globalAlpha = 0.75
+        ctx.fillStyle = color
+        present.forEach(([key, label, f, dotColour, imgSize]) => {
+            const lon = data[key].longitude
+            const [x, y] = point(cx, cy, lon, R * f)
+            const half = imgSize * scale / 2
+            if (key === 'rahu' || key === 'ketu') {
+                drawNode(key, x, y, half, cx, cy)
+            } else if (failed.has(key)) {
+                ctx.globalAlpha = 1
+                ctx.fillStyle = dotColour
+                ctx.beginPath(); ctx.arc(x, y, Math.max(3, 5 * scale), 0, Math.PI * 2); ctx.fill()
+                ctx.globalAlpha = 0.75
+                ctx.fillStyle = color
+            } else {
+                place(key, x, y, size)
+                images[key].title = `${label} ${dm(lon)} ${data[key].sign}`
+            }
+            const text = SHOW_ANGLES ? `${label} ${dm(lon)}` : label
+            const w = ctx.measureText(text).width
+            const gap = (failed.has(key) ? 5 * scale : half) + 5
+            let right = x >= cx
+            if (right && x + gap + w > size - 2) right = false
+            if (!right && x - gap - w < 2) right = true
+            ctx.textAlign = right ? 'left' : 'right'
+            if (SHOW_LABELS) ctx.fillText(text, x + (right ? gap : -gap), y)
+        })
+        ctx.globalAlpha = 1
+    }
+
+    async function load() {
+        try {
+            const res = await fetch(ENDPOINT, { cache: 'no-store' })
+            if (!res.ok) throw new Error('HTTP ' + res.status)
+            payload = await res.json()
+            status.textContent = SHOW_LABELS ? 'Updated ' + new Date().toLocaleTimeString() : ''
+            draw();
+        } catch (e) {
+            status.textContent = 'Could not load positions (' + e.message + ')'
+        }
+    }
+
+    buttons.forEach(b => b.addEventListener('click', () => {
+        mode = b.dataset.mode
+        buttons.forEach(x => x.classList.toggle('active', x === b))
+        draw()
+    }))
+
+    window.addEventListener('resize', resize)
+    resize()
+    load()
+    setInterval(load, REFRESH_MS)
+})()
+</script>
