@@ -40,3 +40,6 @@ require_relative './routes/projects'
 require_relative './routes/time'
 require_relative './routes/rss'
 require_relative './routes/garmin'
+
+puts get_diary_entries
+puts cdn_sha256('/private/diary.tar.gz')
