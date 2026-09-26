@@ -1,7 +1,7 @@
 @latest_diary_sha256 = nil
 
 def refresh_diary_from_cdn
-    sha256 = cdn_sha256('/pricate/diary.tar.gz')
+    sha256 = cdn_sha256('/private/diary.tar.gz')
     return unless sha256
     return if @latest_diary_sha256 == sha256
     return unless cdn_download('/private/diary.tar.gz', './data/diary.tar.gz')
