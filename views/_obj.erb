@@ -1,0 +1,62 @@
+<% id = "obj#{rand(1_000_000_000)}" %>
+<% path ||= '/foot.obj' %>
+<canvas id="<%= id %>" width="240" height="160" style="display: block; width: 100%; max-width: 480px; aspect-ratio: 4 / 3; image-rendering: pixelated; touch-action: none; cursor: grab;"></canvas>
+<script>
+    (() => {
+        const cv = document.getElementById('<%= id %>'), g = cv.getContext('2d');
+        const sub = (a, b) => a.map((v, i) => v - b[i]), dot = (a, b) => a[0] * b[0] + a[1] * b[1] + a[2] * b[2];
+        const cross = (a, b) => [a[1] * b[2] - a[2] * b[1], a[2] * b[0] - a[0] * b[2], a[0] * b[1] - a[1] * b[0]];
+        let faces = [], yaw = 0, pitch = 0.4, zoom = 1, drag = null;
+
+        function load(text) {
+            const V = [], F = [];
+            for (const line of text.split('\n')) {
+                const [k, ...a] = line.trim().split(/\s+/);
+                if (k === 'v') V.push(a.slice(0, 3).map(Number));
+                if (k === 'f') F.push(a.map(s => { const i = parseInt(s); return V[i < 0 ? V.length + i : i - 1]; }));
+            }
+            const lo = V.reduce((m, v) => m.map((x, i) => Math.min(x, v[i])), [Infinity, Infinity, Infinity]);
+            const hi = V.reduce((m, v) => m.map((x, i) => Math.max(x, v[i])), [-Infinity, -Infinity, -Infinity]);
+            const c = lo.map((v, i) => (v + hi[i]) / 2), k = 2 / Math.max(...hi.map((v, i) => v - lo[i]));
+            faces = F.filter(p => p.length > 2 && p.every(Boolean)).map(p => {
+                p = p.map(v => sub(v, c).map(x => x * k));
+                const n = cross(sub(p[1], p[0]), sub(p[2], p[0])), l = Math.hypot(...n) || 1, u = n.map(x => x / l);
+                return {p, n: u, s: `rgb(${u.map(x => (x + 1) * 127.5 | 0)})`};
+            });
+        }
+
+        function frame() {
+            if (!drag) yaw += 0.01;
+            const W = cv.width, H = cv.height, f = H * 1.2, cy = Math.cos(yaw), sy = Math.sin(yaw), cp = Math.cos(pitch), sp = Math.sin(pitch);
+            const R = ([x, y, z]) => { const X = x * cy - z * sy, Z = x * sy + z * cy; return [X, y * cp + Z * sp, Z * cp - y * sp]; };
+            g.fillStyle = '#000040';
+            g.fillRect(0, 0, W, H);
+            faces.map(fc => ({fc, p: fc.p.map(v => { const q = R(v); q[2] += 3.5 * zoom; return q; })}))
+                .filter(({fc, p}) => p.every(q => q[2] > 0.1) && dot(R(fc.n), p[0]) < 0)
+                .map(o => (o.z = o.p.reduce((s, q) => s + q[2], 0) / o.p.length, o))
+                .sort((a, b) => b.z - a.z)
+                .forEach(({fc, p}) => {
+                    g.beginPath();
+                    p.forEach(q => g.lineTo(W / 2 - q[0] * f / q[2], H / 2 - q[1] * f / q[2]));
+                    g.closePath();
+                    g.fillStyle = g.strokeStyle = fc.s;
+                    g.fill();
+                    g.stroke();
+                });
+            requestAnimationFrame(frame);
+        }
+
+        cv.onpointerdown = e => { drag = [e.clientX, e.clientY]; cv.setPointerCapture(e.pointerId); };
+        cv.onpointermove = e => {
+            if (!drag) return;
+            yaw += (e.clientX - drag[0]) * 0.01;
+            pitch = Math.min(1.5, Math.max(-1.5, pitch + (e.clientY - drag[1]) * 0.01));
+            drag = [e.clientX, e.clientY];
+        };
+        cv.onpointerup = cv.onpointercancel = () => drag = null;
+        cv.addEventListener('wheel', e => { e.preventDefault(); zoom = Math.min(4, Math.max(0.4, zoom * (e.deltaY > 0 ? 1.1 : 0.9))); }, {passive: false});
+
+        fetch('<%= path %>').then(r => r.text()).then(load);
+        frame();
+    })();
+</script>

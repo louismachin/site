@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html>
+
+<%= erb :_head, locals: { copy: @copy } %>
+
+<body>
+    <div id="horz">
+        <%= erb :_nav %>
+        <div id="main" style="width: 800px;">
+            <%= erb :'_obj', locals: { path: '/foot.obj' } %>
+        </div>
+    </div>
+</body>
+
+</html>

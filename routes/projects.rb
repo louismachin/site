@@ -31,3 +31,8 @@ get '/project/temple3d' do
     @copy = $default_copy.but(title: "Louis Machin — Temple3D")
     erb :temple3d, locals: { copy: @copy }
 end
+
+get '/project/foot' do
+    @copy = $default_copy.but(title: "Louis Machin — Foot")
+    erb :foot, locals: { copy: @copy }
+end
