@@ -9,14 +9,32 @@
 <body>
     <div id="horz">
         <%= erb :_nav %>
-        <div id="main" style="width: 800px;">
-            <ul>
-                <a class="link" href="/project/temple3d"><li>Temple3D</li></a>
-                <a class="link" href="/project/astrology"><li>Astrology</li></a>
-                <a class="link" href="/project/bad_photos"><li>Bad Photos</li></a>
-                <a class="link" href="/project/forest"><li>Forest</li></a>
-                <a class="link" href="/project/foot"><li>Foot</li></a>
-            </ul>
+        <div id="main">
+            <table>
+                <tr>
+                    <th><a class="link" href="/projects">Projects ⇢</a></th>
+                </tr>
+                <tr>
+                    <td><a class="link" href="/project/temple3d">Temple3D</a></td>
+                    <td class="right">Software</td>
+                </tr>
+                <tr>
+                    <td><a class="link" href="/project/astrology">Astrology</a></td>
+                    <td class="right">Software</td>
+                </tr>
+                <tr>
+                    <td><a class="link" href="/project/bad_photos">Bad Photos</a></td>
+                    <td class="right">Media</td>
+                </tr>
+                <tr>
+                    <td><a class="link" href="/project/forest">Forest</a></td>
+                    <td class="right">Miscellaneous</td>
+                </tr>
+                <tr>
+                    <td><a class="link" href="/project/foot">Foot</a></td>
+                    <td class="right">Miscellaneous</td>
+                </tr>
+            </table>
         </div>
     </div>
 </body>
