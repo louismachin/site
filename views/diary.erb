@@ -7,7 +7,7 @@
     <div id="horz">
         <%= erb :_nav %>
         <div id="main">
-            <% diary_entries.reverse.each do |diary_entry| %>
+            <% @diary_entries.reverse.each do |diary_entry| %>
                 <%= erb :_diary_entry, locals: { diary_entry: diary_entry } %>
             <% end %>
         </div>
