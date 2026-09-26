@@ -51,8 +51,3 @@ get '/api/costar.json' do
     content_type :json
     response_body.to_json
 end
-
-get '/astrology' do
-    @copy = $default_copy.but(title: "Louis Machin — Astrology")
-    erb :astrology, locals: { copy: @copy }
-end

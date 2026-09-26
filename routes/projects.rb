@@ -21,3 +21,13 @@ get '/project/bad_photos' do
         copy: @copy, bad_photos: @bad_photos,
     }
 end
+
+get '/project/astrology' do
+    @copy = $default_copy.but(title: "Louis Machin — Astrology")
+    erb :astrology, locals: { copy: @copy }
+end
+
+get '/project/temple3d' do
+    @copy = $default_copy.but(title: "Louis Machin — Temple3D")
+    erb :temple3d, locals: { copy: @copy }
+end

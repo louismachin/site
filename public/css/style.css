@@ -55,6 +55,12 @@ a.link:hover {
     width: 100%;
 }
 
+#vert {
+    display: grid;
+    grid-template-columns: 1fr;
+    width: 100%;
+}
+
 @media (min-width: 640px) {
     body {
         display: flex;
@@ -67,9 +73,13 @@ a.link:hover {
         max-width: 640px;
         grid-template-columns: 160px 1fr;
     }
+    
+    #vert {
+        max-width: min-content;
+    }
 }
 
-#horz > div {
+#horz > div, #vert > div {
     display: flex;
     flex-direction: column;
     width: 100%;
@@ -79,12 +89,12 @@ a.link:hover {
     padding-bottom: 32px;
 }
 
-#horz table {
+#horz table, #vert table {
     text-align: left;
     padding-bottom: 16px;
 }
 
-#horz table .right {
+#horz table .right, #vert table .right {
     text-align: right;
 }
 
