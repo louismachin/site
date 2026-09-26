@@ -42,6 +42,6 @@ def get_diary_entries(dir = './data/diary')
         entries << current if current
     end
 
-    entries.each { |e| e.text = e.text.join("\n").strip }
+    entries.each { |e| e.text = parse_markdown(e.text.join("\n").strip) }
     entries.sort_by(&:time)
 end

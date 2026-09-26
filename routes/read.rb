@@ -38,3 +38,10 @@ get '/read/:id' do
         erb :writing, locals: { copy: @copy, document: @document }
     end
 end
+
+get '/diary' do
+    redirect '/' unless is_logged_in?
+    @copy = $default_copy.but(title: "Louis Machin — Diary")
+    @diary_entries = get_diary_entries
+    erb :diary, locals: { copy: @copy, diary_entries: @diary_entries }
+end

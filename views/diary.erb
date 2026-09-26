@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html>
+
+<%= erb :_head, locals: { copy: @copy } %>
+
+<body>
+    <div id="horz">
+        <%= erb :_nav %>
+        <div id="main">
+            <% diary_entries.each do |diary_entry| %>
+                <%= erb :_diary_entry, locals: { diary_entry: diary_entry } %>
+            <% end %>
+        </div>
+    </div>
+</body>
+
+</html>

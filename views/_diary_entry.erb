@@ -1,0 +1,13 @@
+<div class="x-scroller" style="margin-bottom: 16px;">
+    <table class="fragment">
+        <tr>
+            <th><%= diary_entry.astro %></th>
+            <th class="right"><%= diary_entry.time.strftime('%Y-%m-%d %H:%M') %></th>
+        </tr>
+        <tr>
+            <td colspan="2">
+                <div class="markdown-content"><%= diary_entry.text %></div>
+            </td>
+        </tr>
+    </table>
+</div>

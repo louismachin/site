@@ -1,0 +1,24 @@
+
+        
+
+<!DOCTYPE html>
+<html>
+
+<%= erb :_head, locals: { copy: @copy } %>
+
+<body>
+    <div id="horz">
+        <%= erb :_nav %>
+        <div id="main" style="width: 800px;">
+            <ul>
+                <a class="link" href="/project/temple3d"><li>Temple3D</li></a>
+                <a class="link" href="/project/astrology"><li>Astrology</li></a>
+                <a class="link" href="/project/bad_photos"><li>Bad Photos</li></a>
+                <a class="link" href="/project/forest"><li>Forest</li></a>
+                <a class="link" href="/project/foot"><li>Foot</li></a>
+            </ul>
+        </div>
+    </div>
+</body>
+
+</html>
