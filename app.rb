@@ -25,6 +25,8 @@ require_relative './helpers/forest'
 require_relative './helpers/cipher'
 require_relative './helpers/podiums'
 require_relative './helpers/ark'
+require_relative './helpers/cdn'
+require_relative './helpers/diary'
 
 require_relative './routes/index'
 require_relative './routes/system'
