@@ -53,7 +53,7 @@ get '/data/:file_name.:ext' do
     file_name = params[:file_name]
     ext = params[:ext]
     file_path = "data/#{file_name}.#{ext}"
-    halt 401 unless if ALLOWED_EXTENSIONS.include?(ext)
+    halt 401 unless ALLOWED_EXTENSIONS.include?(ext)
     halt 404 unless File.file?(file_path)
     send_file file_path
 end
