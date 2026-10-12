@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+
+<%= erb :_head, locals: { copy: @copy } %>
+
+<style>
+    #programming-challenges .category details { padding-left: 16px; }
+    #programming-challenges summary { cursor: crosshair; }
+    #programming-challenges summary i { float: right; font-style: normal; }
+    #programming-challenges pre { border: 1px solid black; padding: 8px; overflow-x: scroll; }
+    #programming-challenges code { font-family: monospace !important; font-size: 12px; }
+</style>
+
+<body>
+    <div id="horz">
+        <%= erb :_nav %>
+        <div id="main">
+            <div id="programming-challenges">
+                <% @programming_challenges.group_by(&:category).each do |category, in_category| %>
+                    <details class="category">
+                        <summary><%= CGI.escapeHTML(category) %> <i>(<%= in_category.size %>)</i></summary>
+                        <% in_category.group_by(&:subcategory).each do |subcategory, challenges| %>
+                            <% if subcategory %>
+                                <details class="subcategory">
+                                    <summary><%= CGI.escapeHTML(subcategory) %> <i>(<%= challenges.size %>)</i></summary>
+                                <% end %>
+                            <% challenges.each do |challenge| %>
+                                <details class="challenge">
+                                    <summary>
+                                        <%= CGI.escapeHTML(challenge.name) %>
+                                        <a href="<%= challenge.url %>">(<%= challenge.language %>)</a>
+                                    </summary>
+                                    <pre><code><%= CGI.escapeHTML(challenge.raw_code.join("\n")) %></code></pre>
+                                </details>
+                            <% end %>
+                            <% if subcategory %></details><% end %>
+                        <% end %>
+                    </details>
+                <% end %>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>

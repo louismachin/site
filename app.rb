@@ -27,6 +27,7 @@ require_relative './helpers/podiums'
 require_relative './helpers/ark'
 require_relative './helpers/cdn'
 require_relative './helpers/diary'
+require_relative './helpers/programming_challenges'
 
 require_relative './routes/index'
 require_relative './routes/system'
