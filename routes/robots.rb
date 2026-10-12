@@ -5,9 +5,7 @@ def get_ai_robots_txt
     raw_uri = 'https://raw.githubusercontent.com/ai-robots-txt/ai.robots.txt/refs/heads/main/robots.txt'
     begin
         response = simple_get(raw_uri)
-        if response.code == '200'
-            $ai_rtxt_cache = Cache.new(Time.now, response.body.split("\n"), 3600)
-        end
+        $ai_rtxt_cache = Cache.new(Time.now, response.body.split("\n"), 3600) if response.code == '200'
     rescue
         # keep existing cache if available, even if expired
     end

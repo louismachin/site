@@ -14,3 +14,13 @@ def cdn_sha256(cdn_path)
     body = simple_get_body(uri, { :api_key => api_key })
     body ? body['sha256'] : nil
 end
+
+$ark_cache == nil
+
+def get_ark_content
+    return $ark_cache unless $ark_cache.nil?
+    uri, iotas = 'https://ark.louismachin.com/api/tags/blog.json', []
+    (simple_get_body(uri) || []).each { |payload| iotas << ArkIota.new(payload) }
+    $ark_cache = iotas
+    return iotas
+end
