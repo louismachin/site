@@ -8,7 +8,7 @@
         <div class="divider"></div>
         <a class="link" href="/guestbook"><li>Guestbook</li></a>
         <a class="link" href="/projects"><li>Projects</li></a>
-        <a class="link" href="/rss.xml"><li>RSS</li></a>
+        <a class="link" href="/rss.xml"><li class="with-icon"><img src="/svg/rss.svg" height="16"> RSS</li></a>
         <div class="divider"></div>
         <a class="link" href="/api/thelemic_date.json"><li><%= nav_sol_date_str %></li></a>
         <a class="link" href="/api/thelemic_date.json"><li><%= nav_luna_date_str %></li></a>
@@ -67,6 +67,12 @@
         #nav .divider.mobile {
             visibility: hidden;
         }
+    }
+
+    #nav li.with-icon {
+        display: flex;
+        align-items: center;
+        gap: 8px;
     }
 </style>
 
