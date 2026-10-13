@@ -7,11 +7,24 @@ def find_document(id)
     return nil
 end
 
+def get_home_content
+    result = { writings: [], fragments: [], pictures: [] }
+    for document in get_documents do
+        next unless is_logged_in? || document.public?
+        result[:writings] << document if document.writing? && (!document.fragment?)
+        result[:fragments] << document if document.fragment?
+        result[:pictures] << document if document.picture?
+    end
+    for key in result.keys do
+        result[key] = result[key].sort { |a, b| b.date <=> a.date }.first(5)
+    end
+    return result
+end
+
 $bad_photos_cache = nil
 
 def get_bad_photos
-    uri = 'https://cdn.louismachin.com/list/public/bad_photos'
-    body = simple_get_body(uri)
+    body = simple_get_body('https://cdn.louismachin.com/list/public/bad_photos')
     bad_photos = body["files"].map { |filename| BadPhoto.new(filename) }
     $bad_photos_cache = [
         bad_photos.select(&:kodak?).reverse,
@@ -32,18 +45,4 @@ $reloaders << method(:reload_bad_photos)
 def find_bad_photo(id)
     get_bad_photos.each { |bad_photo| return bad_photo if id == bad_photo.id }
     return nil
-end
-
-def get_home_content
-    result = { writings: [], fragments: [], pictures: [] }
-    for document in get_documents do
-        next unless is_logged_in? || document.public?
-        result[:writings] << document if document.writing? && (!document.fragment?)
-        result[:fragments] << document if document.fragment?
-        result[:pictures] << document if document.picture?
-    end
-    for key in result.keys do
-        result[key] = result[key].sort { |a, b| b.date <=> a.date }.first(5)
-    end
-    return result
 end

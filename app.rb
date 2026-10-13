@@ -13,18 +13,28 @@ configure do
     disable :protection
 end
 
-helpers do
-    def render_page(title: nil, key: nil, layout: nil, style: nil)
-        @copy = $default_copy.but(title: title)
-        erb :page, locals: {
-            key: key,
-            layout: layout,
-            style: style,
-        }
+class Object
+    def as
+        self
     end
 end
 
-$reloaders = []
+helpers do
+    def render_page(title: nil, key: nil, layout: nil, style: nil)
+        @copy = $default_copy.but(title: title)
+        erb :page, locals: { key: key, layout: layout, style: style, }
+    end
+end
+
+before '*.json' do
+    content_type :json
+end
+
+before '*.txt' do
+    content_type 'text/plain'
+end
+
+$reloaders = [] # to iterate over with GET /api/reload.json
 
 require_relative './models/copy'
 require_relative './models/ark_iota'

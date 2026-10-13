@@ -1,13 +1,13 @@
 <!DOCTYPE html>
 <html>
 
-<%= erb :_head, locals: { copy: @copy } %>
+<%= erb :'meta/_head', locals: { copy: @copy } %>
 
 <% layout ||= 'horz' %>
 
 <body>
     <div id="<%= layout %>">
-        <%= erb :_nav %>
+        <%= erb :'meta/_nav' %>
         <div id="main" style="<%= style if defined?(style) %>">
             <% case key %>
             <%# Blog %> 
@@ -43,14 +43,14 @@
             <% when 'programming_challenges' %>
                 <%= erb :'projects/_programming_challenges', locals: { programming_challenges: @programming_challenges } %>
             <% when 'foot' %>
-                <%= erb :'_obj', locals: { path: '/foot.obj' } %>
+                <%= erb :'meta/_obj', locals: { path: '/foot.obj' } %>
             <% when 'garmin' %>
                 <%= erb :'projects/_garmin', locals: { data: @data } %>
             <% when 'temple3d' %>
                 <%= erb :'projects/_temple3d' %>
             <%# System %>
             <% else %>
-                <%= erb :'system/_not_found' %>
+                <%= erb :'meta/_not_found' %>
             <% end %>
         </div>
     </div>

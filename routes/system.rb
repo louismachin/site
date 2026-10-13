@@ -7,10 +7,11 @@ get '/ping' do
 end
 
 get '/ip' do
-    client_ip = request.env['HTTP_X_FORWARDED_FOR'] || request.env['HTTP_X_REAL_IP'] || request.ip
-    # X-Forwarded-For can contain multiple IPs, take the first one
-    client_ip = client_ip.split(',').first.strip if client_ip.include?(',')
-    return "Your IP address is: #{client_ip}"
+    return "Your IP address is: #{get_single_ip}"
+end
+
+get '/ip.json' do
+    { ip: get_single_ip }.to_json
 end
 
 get '/api' do
@@ -31,29 +32,21 @@ get '/api/fizzbuzz.json' do
         result = ''
         result += 'FIZZ' if n % 3 == 0
         result += 'BUZZ' if n % 5 == 0
-        status 200
-        content_type :json
         { result: result == '' ? n : result }.to_json
     else
-        status 400
-        content_type :json
-        { error: 'Must provide valid ?n= query argument.' }.to_json
+        halt 400, { error: 'Must provide valid ?n= query argument.' }.to_json
     end
 end
 
-get '/reload' do
-    $reloaders.each { |reloader|
-        puts "Calling #{reloader.inspect}..."
-        reloader.call
-    }
-	redirect '/'
+get '/api/reload.json' do
+    $reloaders.each { |reloader| reloader.call }
+    { success: true }.to_json
 end
 
 ALLOWED_EXTENSIONS = ['jpg']
 
 get '/data/:file_name.:ext' do
-    file_name = params[:file_name]
-    ext = params[:ext]
+    file_name, ext = params[:file_name], params[:ext]
     file_path = "data/#{file_name}.#{ext}"
     halt 401 unless ALLOWED_EXTENSIONS.include?(ext)
     halt 404 unless File.file?(file_path)

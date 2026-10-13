@@ -22,6 +22,5 @@ def get_robots_txt
 end
 
 get '/robots.txt' do
-    content_type 'text/plain'
     get_robots_txt
 end

@@ -10,15 +10,8 @@ get '/api/horoscope.json' do
     }
     response_body = simple_get_body(uri, params, headers)
     horoscope = response_body.dig('today', 'pushNotificationText')
-    if horoscope
-        status 200
-        content_type :json
-        { horoscope: horoscope }.to_json
-    else
-        status 400
-        content_type :json
-        { error: 'Could not get horoscope' }.to_json
-    end
+    halt 400, { error: 'Could not get horoscope' }.to_json unless horoscope
+    { horoscope: horoscope }.to_json
 end
 
 get '/api/astro_analysis.json' do
@@ -33,7 +26,6 @@ get '/api/astro_analysis.json' do
         'Content-Type': 'application/json',
     }
     response_body = simple_get_body(uri, params, headers)
-    content_type :json
     response_body.to_json
 end
 
@@ -48,6 +40,5 @@ get '/api/costar.json' do
         'Content-Type': 'application/json',
     }
     response_body = simple_get_body(uri, params, headers)
-    content_type :json
     response_body.to_json
 end

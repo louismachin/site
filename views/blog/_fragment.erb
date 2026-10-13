@@ -9,7 +9,7 @@
                 <% unless document.encoded? %>
                     <div class="markdown-content"><%= document.content %></div>
                 <% else %>
-                    <%= erb :_cipher, locals: { document: document } %>
+                    <%= erb :'blog/_cipher', locals: { document: document } %>
                 <% end %>
             </td>
         </tr>

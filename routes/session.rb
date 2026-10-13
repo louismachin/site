@@ -23,9 +23,11 @@ helpers do
     end
 
     def get_ip
-        request.env['HTTP_X_FORWARDED_FOR'] || 
-        request.env['HTTP_X_REAL_IP'] || 
-        request.ip
+        request.env['HTTP_X_FORWARDED_FOR'] || request.env['HTTP_X_REAL_IP'] || request.ip
+    end
+
+    def get_single_ip
+        get_ip.as { |ip| ip.include?(',') ? ip.split(',').first.strip : ip }
     end
 end
 
@@ -37,17 +39,10 @@ end
 post '/login' do
     data = JSON.parse(request.body.read)
     attempt = data["sequence"].join('-')
-    if is_valid_key?(attempt)
-        token = $env.new_token
-        response.set_cookie(COOKIE_NAME, value: token, path: '/', max_age: '3600')
-        content_type :json
-        status 200
-        { success: true, token: token }.to_json
-    else
-        content_type :json
-        status 401
-        { success: false, error: "Invalid password" }.to_json
-    end
+    halt 401, { success: false, error: "Invalid password" }.to_json unless is_valid_key?(attempt)
+    token = $env.new_token
+    response.set_cookie(COOKIE_NAME, value: token, path: '/', max_age: '3600')
+    { success: true, token: token }.to_json
 end
 
 get '/logout' do

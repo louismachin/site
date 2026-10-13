@@ -28,7 +28,7 @@ end
 get '/read/:id' do
     @document = params[:bad_photo] ? find_bad_photo(params[:id]) : find_document(params[:id])
     redirect '/' unless @document
-    redirect '/' unless is_logged_in? || @document.public?
+    projected! unless @document.public?
     if @document.picture?
         render_page(title: @document.title, key: 'picture')
     elsif @document.fragment?
@@ -39,7 +39,7 @@ get '/read/:id' do
 end
 
 get '/diary' do
-    redirect '/' unless is_logged_in?
+    protected!
     @diary_entries = get_diary_entries
     render_page(title: 'Louis Machin — Diary', key: 'diary')
 end

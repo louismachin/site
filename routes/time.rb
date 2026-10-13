@@ -44,7 +44,6 @@ end
 $reloaders << method(:reload_thelemic_date)
 
 get '/api/thelemic_date.json' do
-    content_type :json
     thelemic_date.to_json
 end
 

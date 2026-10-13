@@ -16,12 +16,9 @@ DIARY_HEADER = /\A[A-Z][a-z]{2}, [A-Z][a-z]{2} \d{1,2} \d{4} - \d{1,2}:\d{2} [AP
 
 def get_diary_entries(dir = './data/diary')
     refresh_diary_from_cdn
-
     entries = []
-
     Dir.glob(File.join(dir, '*.txt')).sort.each do |path|
         current = nil
-
         File.foreach(path, chomp: true, encoding: 'UTF-8') do |line|
             if DIARY_HEADER.match?(line.strip)
                 entries << current if current
@@ -38,10 +35,8 @@ def get_diary_entries(dir = './data/diary')
                 end
             end
         end
-
         entries << current if current
     end
-
     entries.each { |e| e.text = parse_markdown(e.text.join("\n").strip) }
     entries.sort_by(&:time)
 end
