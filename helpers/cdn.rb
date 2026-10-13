@@ -24,3 +24,11 @@ def get_ark_content
     $ark_cache = iotas
     return iotas
 end
+
+def reload_ark
+
+	$ark_cache = nil
+    $bad_photos_cache = nil
+end
+
+$reloaders << method(:reload_ark)

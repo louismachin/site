@@ -13,6 +13,8 @@ configure do
     disable :protection
 end
 
+$reloaders = []
+
 require_relative './models/copy'
 require_relative './models/ark_iota'
 require_relative './models/bad_photo'

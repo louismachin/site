@@ -36,6 +36,13 @@ rescue
     return { error: 'Could not get the Thelemic date' }
 end
 
+def reload_thelemic_date
+    $thelemic_date_cache = nil
+    $thelemic_date_cached_at = nil
+end
+
+$reloaders << method(:reload_thelemic_date)
+
 get '/api/thelemic_date.json' do
     content_type :json
     thelemic_date.to_json

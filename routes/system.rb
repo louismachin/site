@@ -42,8 +42,10 @@ get '/api/fizzbuzz.json' do
 end
 
 get '/reload' do
-	$ark_cache = nil
-    $bad_photos_cache = nil
+    $reloaders.each { |reloader|
+        puts "Calling #{reloader.inspect}..."
+        reloader.call
+    }
 	redirect '/'
 end
 

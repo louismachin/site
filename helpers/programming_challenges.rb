@@ -14,20 +14,20 @@ ProgrammingChallenge = Struct.new(:name, :category, :subcategory, :url, :languag
     end
 end
 
-@cached_pc_category_names = nil
+$pc_category_names_cache = nil
 
 def get_category_names
-    return @cached_pc_category_names unless @cached_pc_category_names.nil?
+    return $pc_category_names_cache unless $pc_category_names_cache.nil?
     response = simple_get("https://raw.githubusercontent.com/#{GITHUB_USER}/#{GITHUB_REPO}/#{GITHUB_BRANCH}/names.yml")
     result = response.code == '200' ? (YAML.safe_load(response.body) || {}) : {}
-    @cached_pc_category_names = result
+    $pc_category_names_cache = result
     return result
 end
 
-@cached_programming_challenges = nil
+$programming_challenges_cache = nil
 
 def get_programming_challenges
-    return @cached_programming_challenges unless @cached_programming_challenges.nil?
+    return $programming_challenges_cache unless $programming_challenges_cache.nil?
     names = get_category_names
     tree = simple_get_body(
         "https://api.github.com/repos/#{GITHUB_USER}/#{GITHUB_REPO}/git/trees/#{GITHUB_BRANCH}",
@@ -49,6 +49,14 @@ def get_programming_challenges
             path
         )
     }.sort_by { |c| [c.category, c.subcategory.to_s, c.name.to_i, c.name] }
-    @cached_programming_challenges = result
+    $programming_challenges_cache = result
     return result
 end
+
+
+def reload_programming_challenges
+	$programming_challenges_cache = nil
+	$pc_category_names_cache = nil
+end
+
+$reloaders << method(:reload_programming_challenges)

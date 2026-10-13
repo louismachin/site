@@ -23,6 +23,12 @@ rescue => e
     return []
 end
 
+def reload_bad_photos
+	$bad_photos_cache = nil
+end
+
+$reloaders << method(:reload_bad_photos)
+
 def find_bad_photo(id)
     get_bad_photos.each { |bad_photo| return bad_photo if id == bad_photo.id }
     return nil
