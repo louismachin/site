@@ -1,0 +1,5 @@
+<% if document.encoded? && is_not_logged_in? %>
+    <%= erb :_cipher, locals: { document: document, title: 'This is a work in progress.' } %>
+<% else %>
+    <%= erb :_markdown, locals: { content: document.content } %>
+<% end %>

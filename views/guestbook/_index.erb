@@ -1,0 +1,6 @@
+<%= erb :'guestbook/_form', locals: { hide_form: hide_form } %>
+<div class="guestbook-entries">
+    <% entries.each do |entry| %>
+        <%= erb :'guestbook/_entry', locals: { entry: entry } %>
+    <% end %>
+</div>

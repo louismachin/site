@@ -1,0 +1,3 @@
+<% diary_entries.reverse.each do |diary_entry| %>
+    <%= erb :'diary/_entry', locals: { diary_entry: diary_entry } %>
+<% end %>

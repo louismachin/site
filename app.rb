@@ -13,6 +13,17 @@ configure do
     disable :protection
 end
 
+helpers do
+    def render_page(title: nil, key: nil, layout: nil, style: nil)
+        @copy = $default_copy.but(title: title)
+        erb :page, locals: {
+            key: key,
+            layout: layout,
+            style: style,
+        }
+    end
+end
+
 $reloaders = []
 
 require_relative './models/copy'
@@ -29,12 +40,11 @@ require_relative './helpers/cdn'
 require_relative './helpers/diary'
 require_relative './helpers/programming_challenges'
 
-require_relative './routes/index'
+require_relative './routes/blog'
 require_relative './routes/system'
 require_relative './routes/spam'
 require_relative './routes/robots'
 require_relative './routes/session'
-require_relative './routes/read'
 require_relative './routes/guestbook'
 require_relative './routes/astrology'
 require_relative './routes/projects'

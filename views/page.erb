@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+
+<%= erb :_head, locals: { copy: @copy } %>
+
+<% layout ||= 'horz' %>
+
+<body>
+    <div id="<%= layout %>">
+        <%= erb :_nav %>
+        <div id="main" style="<%= style if defined?(style) %>">
+            <% case key %>
+            <%# Blog %> 
+            <% when 'home' %>
+                <%= erb :'blog/_index', locals: { content: @content } %>
+            <% when 'writing' %>
+                <%= erb :'blog/_writing', locals: { document: @document } %>
+            <% when 'writings' %>
+                <%= erb :'blog/_writings', locals: { content: @content } %>
+            <% when 'fragment' %>
+                <%= erb :'blog/_fragment', locals: { document: @document } %>
+            <% when 'fragments' %>
+                <%= erb :'blog/_fragments', locals: { content: @content } %>
+            <% when 'picture' %>
+                <%= erb :'blog/_picture', locals: { document: @document } %>
+            <% when 'pictures' %>
+                <%= erb :'blog/_pictures', locals: { content: @content, bad_photos: @bad_photos } %>
+            <%# Guestbook %>
+            <% when 'guestbook' %>
+                <%= erb :'guestbook/_index', locals: { entries: @entries, hide_form: @hide_form } %>
+            <%# Diary %>
+            <% when 'diary' %>
+                <%= erb :'diary/_index', locals: { diary_entries: @diary_entries } %>
+            <%# Projects %>
+            <% when 'projects' %>
+                <%= erb :'projects/_index' %>
+            <% when 'astrology' %>
+                <%= erb :'projects/_astrology' %>
+            <% when 'bad_photos' %>
+                <%= erb :'projects/_bad_photos', locals: { bad_photos: @bad_photos } %>
+            <% when 'forest' %>
+                <%= erb :'projects/_forest', locals: { forest: @forest } %>
+            <% when 'programming_challenges' %>
+                <%= erb :'projects/_programming_challenges', locals: { programming_challenges: @programming_challenges } %>
+            <% when 'foot' %>
+                <%= erb :'_obj', locals: { path: '/foot.obj' } %>
+            <% when 'garmin' %>
+                <%= erb :'projects/_garmin', locals: { data: @data } %>
+            <% when 'temple3d' %>
+                <%= erb :'projects/_temple3d' %>
+            <%# System %>
+            <% else %>
+                <%= erb :'system/_not_found' %>
+            <% end %>
+        </div>
+    </div>
+</body>
+
+</html>

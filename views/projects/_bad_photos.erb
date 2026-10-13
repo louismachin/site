@@ -1,0 +1,7 @@
+<div id="pictures">
+    <% bad_photos.each do |bad_photo| %>
+        <div>
+            <img style="cursor: crosshair;" src="<%= bad_photo.uri %>"/>
+        </div>
+    <% end %>
+</div>

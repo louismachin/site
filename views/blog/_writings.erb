@@ -1,0 +1,10 @@
+<table>
+    <% content.each do |entry| %>
+        <tr>
+            <td><a class="link" href="/read/<%= entry.id %>">
+                <%= entry.title %>
+            </a></td>
+            <td class="right"><%= entry.date %></td>
+        </tr>
+    <% end %>
+</table>

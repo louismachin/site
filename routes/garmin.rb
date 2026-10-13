@@ -11,9 +11,3 @@ post '/api/garmin' do
     $garmin_data = data
     { success: true }.to_json
 end
-
-get '/project/garmin' do
-    @copy = $default_copy.but(title: "Louis Machin — Garmin")
-    @data = $garmin_data
-    erb :garmin
-end

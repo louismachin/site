@@ -62,6 +62,5 @@ end
 
 not_found do
     status 404
-    @copy = $default_copy.but(title: "Louis Machin — 404")
-    erb :not_found, locals: { copy: @copy }
+    render_page(title: 'Louis Machin — 404')
 end
