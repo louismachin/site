@@ -9,37 +9,35 @@
     <div id="<%= layout %>">
         <%= erb :'meta/_nav' %>
         <div id="main" style="<%= style if defined?(style) %>">
-            <div id="main" style="<%= style if defined?(style) %>">
-                <%
-                partial, partial_locals = case key
-                    # Blog
-                    when 'home'      then ['blog/_index',     { content: @content }]
-                    when 'writing'   then ['blog/_writing',   { document: @document }]
-                    when 'writings'  then ['blog/_writings',  { content: @content }]
-                    when 'fragment'  then ['blog/_fragment',  { document: @document }]
-                    when 'fragments' then ['blog/_fragments', { content: @content }]
-                    when 'picture'   then ['blog/_picture',   { document: @document }]
-                    when 'pictures'  then ['blog/_pictures',  { content: @content, bad_photos: @bad_photos }]
-                    # Guestbook
-                    when 'guestbook' then ['guestbook/_index', { entries: @entries, hide_form: @hide_form }]
-                    # Diary
-                    when 'diary'     then ['diary/_index', { diary_entries: @diary_entries }]
-                    # Projects
-                    when 'projects'   then ['projects/_index', {}]
-                    when 'astrology'  then ['projects/_astrology', {}]
-                    when 'bad_photos' then ['projects/_bad_photos', { bad_photos: @bad_photos }]
-                    when 'forest'     then ['projects/_forest', { forest: @forest }]
-                    when 'programming_challenges'
-                    ['projects/_programming_challenges', { programming_challenges: @programming_challenges }]
-                    when 'foot'       then ['meta/_obj', { path: '/foot.obj' }]
-                    when 'garmin'     then ['projects/_garmin', { data: @data }]
-                    when 'temple3d'   then ['projects/_temple3d', {}]
-                    # System
-                    else ['meta/_not_found', {}]
-                end
-                %>
-                <%= erb partial.to_sym, locals: partial_locals %>
-            </div>
+            <%
+            partial, partial_locals = case key
+                # Blog
+                when 'home'      then ['blog/_index',     { content: @content }]
+                when 'writing'   then ['blog/_writing',   { document: @document }]
+                when 'writings'  then ['blog/_writings',  { content: @content }]
+                when 'fragment'  then ['blog/_fragment',  { document: @document }]
+                when 'fragments' then ['blog/_fragments', { content: @content }]
+                when 'picture'   then ['blog/_picture',   { document: @document }]
+                when 'pictures'  then ['blog/_pictures',  { content: @content, bad_photos: @bad_photos }]
+                # Guestbook
+                when 'guestbook' then ['guestbook/_index', { entries: @entries, hide_form: @hide_form }]
+                # Diary
+                when 'diary'     then ['diary/_index', { diary_entries: @diary_entries }]
+                # Projects
+                when 'projects'   then ['projects/_index', {}]
+                when 'astrology'  then ['projects/_astrology', {}]
+                when 'bad_photos' then ['projects/_bad_photos', { bad_photos: @bad_photos }]
+                when 'forest'     then ['projects/_forest', { forest: @forest }]
+                when 'programming_challenges'
+                ['projects/_programming_challenges', { programming_challenges: @programming_challenges }]
+                when 'foot'       then ['meta/_obj', { path: '/foot.obj' }]
+                when 'garmin'     then ['projects/_garmin', { data: @data }]
+                when 'temple3d'   then ['projects/_temple3d', {}]
+                # System
+                else ['meta/_not_found', {}]
+            end
+            %>
+            <%= erb partial.to_sym, locals: partial_locals %>
         </div>
     </div>
 </body>
