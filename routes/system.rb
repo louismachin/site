@@ -53,6 +53,12 @@ get '/data/:file_name.:ext' do
     send_file file_path
 end
 
+get '/mailbox' do
+    protected!
+    @emails = $fastmail.latest_emails
+    render_page(title: 'Louis Machin — Mailbox', key: 'mailbox')
+end
+
 not_found do
     status 404
     render_page(title: 'Louis Machin — 404')

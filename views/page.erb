@@ -23,6 +23,8 @@
                 when 'guestbook'  then ['guestbook/_index', { entries: @entries, hide_form: @hide_form }]
                 # Diary
                 when 'diary'      then ['diary/_index', { diary_entries: @diary_entries }]
+                # Mailbox
+                when 'mailbox'    then ['mailbox/_index', { emails: @emails }]
                 # Projects
                 when 'projects'   then ['projects/_index', {}]
                 when 'astrology'  then ['projects/_astrology', {}]

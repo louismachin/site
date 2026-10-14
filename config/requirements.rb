@@ -8,6 +8,7 @@ require_relative '../models/copy'
 require_relative '../models/ark_iota'
 require_relative '../models/bad_photo'
 require_relative '../models/guestbook'
+require_relative '../models/fastmail'
 
 require_relative '../helpers/simple_web'
 require_relative '../helpers/markdown'

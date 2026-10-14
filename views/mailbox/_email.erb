@@ -1,0 +1,13 @@
+<div class="x-scroller" style="margin-bottom: 16px;">
+    <table class="fragment">
+        <tr>
+            <th><%= email.subject %></th>
+            <th class="right"><%= email.received_at.strftime('%Y-%m-%d %H:%M') %></th>
+        </tr>
+        <tr>
+            <td colspan="2">
+                <div class="markdown-content"><%= email.preview %></div>
+            </td>
+        </tr>
+    </table>
+</div>

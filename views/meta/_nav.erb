@@ -15,6 +15,7 @@
         <% if is_logged_in? %>
             <div class="divider"></div>
             <a class="link" href="/project/garmin"><li>👣 <%= step_count %> steps</li></a>
+            <a class="link" href="/mailbox"><li>&#x2709; <%= $fastmail.unread_count %> unread</li></a>
             <div class="divider"></div>
             <a class="link" href="/diary"><li>Diary</li></a>
             <a class="link" href="/api/reload.json" target="_blank"><li>Reload</li></a>
