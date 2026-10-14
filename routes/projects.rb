@@ -2,10 +2,6 @@ get '/projects' do
     render_page(title: 'Louis Machin — Projects', key: 'projects')
 end
 
-def self.get_project(path, &block)
-    send(:get, "/project#{path}", &block)
-end
-
 get_project '/forest' do
     @forest = get_forest(*$env.forest_auth)
     render_page(title: 'Louis Machin — Forest', key: 'forest')

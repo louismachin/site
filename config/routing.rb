@@ -12,3 +12,7 @@ end
 before '*.txt' do
     content_type 'text/plain'
 end
+
+def self.get_project(path, &block)
+    send(:get, "/project#{path}", &block)
+end
