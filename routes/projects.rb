@@ -30,7 +30,7 @@ end
 
 get_project '/programming_challenges' do
     @programming_challenges = get_programming_challenges
-    render_page(title: 'Louis Machin — Programming Challenges', key: 'programming_challenges')
+    render_page(title: 'Louis Machin — Programming Challenges', key: 'problems')
 end
 
 get_project '/garmin' do

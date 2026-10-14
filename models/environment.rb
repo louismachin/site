@@ -1,4 +1,4 @@
-ENV_FILE_PATH = 'environment.yml'
+ENV_FILE_PATH = './config/environment.yml'
 
 Cache = Struct.new(:cached_at, :data, :expiry) do
     def expired?
