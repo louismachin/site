@@ -1,7 +1,7 @@
 helpers do
     def render_page(title: nil, key: nil, layout: nil, style: nil)
         @copy = $default_copy.but(title: title)
-        erb :page, locals: { key: key, layout: layout, style: style, }
+        halt erb :page, locals: { key: key, layout: layout, style: style, }
     end
 end
 

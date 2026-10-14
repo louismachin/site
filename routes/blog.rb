@@ -29,13 +29,10 @@ get '/read/:id' do
     @document = params[:bad_photo] ? find_bad_photo(params[:id]) : find_document(params[:id])
     redirect '/' unless @document
     projected! unless @document.public?
-    if @document.picture?
-        render_page(title: @document.title, key: 'picture')
-    elsif @document.fragment?
-        render_page(title: @document.title, key: 'fragment')
-    elsif @document.writing?
-        render_page(title: @document.title, key: 'writing')
-    end
+    render_page(title: @document.title, key: 'picture') if @document.picture?
+    render_page(title: @document.title, key: 'fragment') if @document.fragment?
+    render_page(title: @document.title, key: 'writing') if @document.writing?
+    not_found
 end
 
 get '/diary' do
